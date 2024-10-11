@@ -81,6 +81,9 @@ def move():
                 min_dist = dist2[pos_xx][pos_yy]
                 min_x, min_y = pos_xx, pos_yy
         p[1], p[2] = min_x, min_y
+        
+        if (conv_list[p[0]-1][1] == p[1] and conv_list[p[0]-1][2] == p[2]):
+            valid_grid[p[1]][p[2]] = 0
 
 def check_point():
     global count
@@ -97,8 +100,8 @@ def check_point():
 player_list = []
 result = 0
 i = 0
-#while(1):
-for _ in range(10):
+while(1):
+#for _ in range(10):
     if count == m:
         break
     move()
@@ -118,12 +121,12 @@ for _ in range(10):
     check_point()
     result += 1
 #print(conv_list)
-# print(player_list)
+#print(player_list)
 print(result)
 # for i in range(n):
-#     for j in range(n):
-#         print(valid_grid[i][j], end = ' ')
-#     print()
+#      for j in range(n):
+#          print(valid_grid[i][j], end = ' ')
+#      print()
 # 도달 했는지 체크 -> 플레이어 지우고 해당 편의점 비활성화
 
 # 사람들어오면 베이스 캠프 비활성화
