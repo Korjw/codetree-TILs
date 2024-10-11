@@ -82,8 +82,7 @@ def move():
                 min_x, min_y = pos_xx, pos_yy
         p[1], p[2] = min_x, min_y
         
-        if (conv_list[p[0]-1][1] == p[1] and conv_list[p[0]-1][2] == p[2]):
-            valid_grid[p[1]][p[2]] = 0
+    check_point()
 
 def check_point():
     global count
@@ -118,7 +117,6 @@ while(1):
         player_list.append(player)
         valid_grid[player[1]][player[2]] = 0
         #print(player)
-    check_point()
     result += 1
 #print(conv_list)
 #print(player_list)
