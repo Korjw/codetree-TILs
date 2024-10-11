@@ -77,18 +77,17 @@ def check_point():
         
 for i in range(m):
     move()
-    conv = conv_list[i]
-    q = deque()
-    visited = [[False for _ in range(n)] for __ in range(n)]
-    q.append([0, conv[1],conv[2]])
-    visited[conv[1]][conv[2]] = True
-    base_conv_relation = []
-    bfs()
-    base_conv_relation.sort()
-    player = [i+1, base_conv_relation[0][1], base_conv_relation[0][2]]
-    player_list.append(player)
-    move()
-    print(dest)
+    if len(conv_list) > i:
+        conv = conv_list[i]
+        q = deque()
+        visited = [[False for _ in range(n)] for __ in range(n)]
+        q.append([0, conv[1],conv[2]])
+        visited[conv[1]][conv[2]] = True
+        base_conv_relation = []
+        bfs()
+        base_conv_relation.sort()
+        player = [i+1, base_conv_relation[0][1], base_conv_relation[0][2]]
+        player_list.append(player)
     
 # 도달 했는지 체크 -> 플레이어 지우고 해당 편의점 비활성화
 
