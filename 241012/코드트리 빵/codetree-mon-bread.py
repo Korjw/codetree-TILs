@@ -7,6 +7,8 @@
 # 이때부터 다른 사람들은 해당 베이스 캠프가 있는 칸을 지나갈 수 없게 됩니다.
 #  t번 사람이 편의점을 향해 움직이기 시작했더라도 해당 베이스 캠프는 앞으로 절대 지나갈 수 없음에 유의합니다.
 
+import sys
+
 n, m = map(int,input().split())
 base_grid =[list(map(int,input().split())) for _ in range(n)] # 베이스캠프 그리드
 conv_grid = [[0 for _ in range(n)] for __ in range(n)] # 편의점 위치를 표시
@@ -53,21 +55,32 @@ def bfs():
 
 def move():
     for p in player_list:
-        dist = abs(p[1]-conv_list[p[0]-1][1]) + abs(p[2]-conv_list[p[0]-1][2])
+        qq = deque()
+        visited2 = [[False for _ in range(n)] for __ in range(n)]
+        qq.append([conv_list[p[0]-1][1], conv_list[p[0]-1][2]])
+        visited2[conv_list[p[0]-1][1]][conv_list[p[0]-1][2]] = True
+        dist2 = [[0 for _ in range(n)] for __ in range(n)]
+        while(qq):
+            x, y = qq.popleft()
+            for dx, dy in zip(dir_x, dir_y):
+                pos_x, pos_y = x + dx, y + dy
+                if in_range(pos_x, pos_y) and not visited2[pos_x][pos_y] and valid_grid[pos_x][pos_y]:
+                    qq.append([pos_x, pos_y])
+                    visited2[pos_x][pos_y] = True
+                    dist2[pos_x][pos_y] = dist2[x][y] + 1
+        min_dist = sys.maxsize
+
+        # print(dist2)
+        min_x, min_y = -1, -1
         for dx, dy in zip(dir_x, dir_y):
-            pos_x, pos_y = p[1] + dx, p[2] + dy
-            pos_dist = abs(pos_x-conv_list[p[0]-1][1]) + abs(pos_y-conv_list[p[0]-1][2])
-            if dist > pos_dist:
-                if in_range(pos_x, pos_y) and valid_grid[pos_x][pos_y]:
-                    p[1], p[2] = pos_x, pos_y
-                elif in_range(pos_x, pos_y) and not valid_grid[pos_x][pos_y]:
-                    for i in range(4):
-                        pos = []
-                        pos_xx, pos_yy = p[1] + dir_x[i], p[2] + dir_y[i]
-                        if not (dx == dir_x[i] and dy == dir_y[i]) and not (dx != dir_x[i] and dy == dir_y[i]) and not (dx == dir_x[i] and dy != dir_y[i]):
-                            pos.append([abs(pos_xx-conv_list[p[0]-1][1]) + abs(pos_yy-conv_list[p[0]-1][2]) ,pos_xx, pos_yy])
-                        pos.sort()
-                        p[1], p[2] = pos_xx, pos_yy
+            pos_xx, pos_yy = p[1]+dx, p[2]+dy
+            # print(p[0], pos_xx, pos_yy)
+            if (in_range(pos_xx, pos_yy) and valid_grid[pos_xx][pos_yy] and dist2[pos_xx][pos_yy] < min_dist) \
+            and ((conv_list[p[0]-1][1] == pos_xx and conv_list[p[0]-1][2] == pos_yy) or dist2[pos_xx][pos_yy] > 0):
+                # print(dist2[pos_xx][pos_yy])
+                min_dist = dist2[pos_xx][pos_yy]
+                min_x, min_y = pos_xx, pos_yy
+        p[1], p[2] = min_x, min_y
 
 def check_point():
     global count
@@ -84,7 +97,8 @@ def check_point():
 player_list = []
 result = 0
 i = 0
-while(1):
+#while(1):
+for _ in range(10):
     if count == m:
         break
     move()
@@ -104,8 +118,12 @@ while(1):
     check_point()
     result += 1
 #print(conv_list)
-#print(player_list)
+# print(player_list)
 print(result)
+# for i in range(n):
+#     for j in range(n):
+#         print(valid_grid[i][j], end = ' ')
+#     print()
 # 도달 했는지 체크 -> 플레이어 지우고 해당 편의점 비활성화
 
 # 사람들어오면 베이스 캠프 비활성화
