@@ -47,6 +47,7 @@ def bfs(start, gisa_number):
     return result_list
 
 def move(gisa, d):
+    hit_check = False
     area = bfs([gisa[0], gisa[1]], gisa[5])
 
     for a in area:
@@ -61,9 +62,10 @@ def move(gisa, d):
             if not in_range(pos_xx, pos_yy) or chess_grid[pos_xx][pos_yy] == 2:
                 if meet[2] in move_list:
                     move_list.remove(meet[2])
+                    hit_check = True
     
     #print(meet_list, move_list)
-    if not move_list:
+    if hit_check:
         return
     for move_number in move_list:
         gisa_list[move_number][0], gisa_list[move_number][1] = gisa_list[move_number][0] + dir_x[d], gisa_list[move_number][1] + dir_y[d]
@@ -110,7 +112,7 @@ for _ in range(Q):
     move(gisa_list[i], d)
     
     full_gisa()
-    #print(gisa_list)
+    # print(gisa_list)
     # for i in range(L):
     #     for j in range(L):
     #         print(gisa_grid[i][j], end = ' ')
