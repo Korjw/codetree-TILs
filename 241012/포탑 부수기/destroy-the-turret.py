@@ -17,7 +17,7 @@ def out_of_range(x, y):
         x -= (n)
     if y < 0:
         y += (m)
-    if y > n-1:
+    if y > m-1:
         y -= (m)
     return x, y
 
@@ -165,7 +165,8 @@ def bfs(start, end):
         for dxx, dyy in zip(dir_xx, dir_yy):
             pos_xx, pos_yy = end[0] + dxx, end[1] + dyy
             pos_xx, pos_yy = out_of_range(pos_xx, pos_yy)
-            if grid[pos_xx][pos_yy] > 0 and [pos_xx, pos_yy] != start:
+            if grid[pos_xx][pos_yy] > 0:
+                #print(end,pos_xx, pos_yy)
                 grid[pos_xx][pos_yy] -= (power // 2)
                 attacked_list.append([pos_xx, pos_yy])
 
