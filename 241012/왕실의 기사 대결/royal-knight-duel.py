@@ -100,7 +100,7 @@ def check_move(x, y, d):
 
 
 full_gisa()
-for _ in range(3):
+for _ in range(Q):
     move_list = []
     meet_list = []
     i, d = map(int,input().split())
