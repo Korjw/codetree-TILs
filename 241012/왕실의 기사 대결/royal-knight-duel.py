@@ -51,8 +51,9 @@ def move(gisa, d):
 
     for a in area:
         check_move(a[0], a[1], d)
-    
+
     #print(meet_list, move_list)
+    move_list.append(gisa[5])
     for meet in meet_list:
         area = bfs([meet[0], meet[1]], meet[2]) # 위치만
         for a in area:
@@ -61,14 +62,15 @@ def move(gisa, d):
                 if meet[2] in move_list:
                     move_list.remove(meet[2])
     
-    # print(meet_list, move_list)
+    #print(meet_list, move_list)
     if not move_list:
         return
-    gisa[0], gisa[1] = gisa[0] + dir_x[d], gisa[1] + dir_y[d]
     for move_number in move_list:
-        gisaa =  gisa_list[move_number]
-        gisaa[0], gisaa[1] = gisaa[0] + dir_x[d], gisaa[1] + dir_y[d]
-        hit(gisa_list[move_number])
+        gisa_list[move_number][0], gisa_list[move_number][1] = gisa_list[move_number][0] + dir_x[d], gisa_list[move_number][1] + dir_y[d]
+    move_list.remove(gisa[5])
+    if move_list:
+        for move_number in move_list:
+            hit(gisa_list[move_number])
         
 
 def hit(gisa):
@@ -83,7 +85,7 @@ def hit(gisa):
 def check_move(x, y, d):
     q = deque()
     q.append([x, y])
-    result_list = []
+    meet_list.append([x, y, gisa_grid[x][y]])
 
     while(q):
         x, y = q.popleft()
@@ -108,7 +110,7 @@ for _ in range(Q):
     move(gisa_list[i], d)
     
     full_gisa()
-    # print(gisa_list)
+    #print(gisa_list)
     # for i in range(L):
     #     for j in range(L):
     #         print(gisa_grid[i][j], end = ' ')
