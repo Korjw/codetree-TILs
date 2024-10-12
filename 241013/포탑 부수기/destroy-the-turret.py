@@ -59,7 +59,6 @@ def select_min_potam():
         min_attack = -INT_MAX
         min_row_column_list = -INT_MAX
         min_x, min_y = -INT_MAX, -INT_MAX
-        print(45,pos_list)
         for pos in pos_list:
             if min_attack < attack_list[pos[0]][pos[1]]:
                 min_attack = attack_list[pos[0]][pos[1]]
@@ -75,7 +74,6 @@ def select_min_potam():
                         min_attack = attack_list[pos[0]][pos[1]]
                         min_row_column_list = pos[0] + pos[1]
                         min_x, min_y = pos[0], pos[1]
-        print(min_attack,min_row_column_list, min_x, min_y)
         min_potam = [min_x, min_y]
 
     else:
@@ -103,7 +101,6 @@ def select_max_potam(min_potam):
         max_attack = INT_MAX
         max_row_column_list = INT_MAX
         max_x, max_y = INT_MAX, INT_MAX
-        print(45,pos_list)
         for pos in pos_list:
             if max_attack > attack_list[pos[0]][pos[1]]:
                 max_attack = attack_list[pos[0]][pos[1]]
@@ -119,7 +116,6 @@ def select_max_potam(min_potam):
                         max_attack = attack_list[pos[0]][pos[1]]
                         max_row_column_list = pos[0] + pos[1]
                         max_x, max_y = pos[0], pos[1]
-        print(max_attack,max_row_column_list, max_x, max_y)
         max_potam = [max_x, max_y]
 
     else:
@@ -169,7 +165,7 @@ def bfs(start, end):
         for dxx, dyy in zip(dir_xx, dir_yy):
             pos_xx, pos_yy = end[0] + dxx, end[1] + dyy
             pos_xx, pos_yy = out_of_range(pos_xx, pos_yy)
-            if grid[pos_xx][pos_yy] > 0:
+            if grid[pos_xx][pos_yy] > 0 and [pos_xx, pos_yy] != start:
                 grid[pos_xx][pos_yy] -= (power // 2)
                 attacked_list.append([pos_xx, pos_yy])
 
@@ -204,7 +200,7 @@ for c in range(k):
             if grid[i][j] < 0:
                 grid[i][j] = 0
     init()
-    print(min_potam, max_potam)
+    #print(min_potam, max_potam)
     if check():
         break
 result = -INT_MAX
@@ -212,6 +208,6 @@ for i in range(n):
     for j in range(m):
         if result < grid[i][j]:
             result = grid[i][j]
-        print(grid[i][j], end = ' ')
-    print()
+    #     print(grid[i][j], end = ' ')
+    # print()
 print(result)
