@@ -2,7 +2,7 @@ import sys
 from collections import deque
 n, m, k= map(int,input().split())
 grid = [list(map(int,input().split())) for _ in range(n)]
-attack_list = [] # 최근 꺼는 앞으로 붙임 insert 0
+attack_list = [[ 0 for _ in range(m)] for __ in range(n)] # 최근 꺼는 앞으로 붙임 insert 0
 attacked_list = []
 INT_MAX = sys.maxsize
 
@@ -37,28 +37,49 @@ def select_min_potam():
                 if min_num == grid[i][j]:
                     pos_list.append([i,j])
     
-    if len(pos_list) >= 2:
-        min_attack_list = INT_MAX
+        max_attack = INT_MAX
+        max_row_column_list = INT_MAX
+        max_x, max_y = INT_MAX, INT_MAX
         for pos in pos_list:
-            if pos in attack_list:
-                if min_attack_list > attack_list.index(pos):
-                    min_attack_list = attack_list.index(pos)
-        if min_attack_list != INT_MAX:
-            min_potam = attack_list[min_attack_list]
-        else:
-            min_row_column_list = -INT_MAX
-            min_x, min_y = -1, -1
-            for pos in pos_list:
-                if (pos[0] + pos[1]) >= min_row_column_list and min_y < pos[1]:
+            if max_attack > attack_list[pos[0]][pos[1]]:
+                max_attack = attack_list[pos[0]][pos[1]]
+                max_row_column_list = pos[0] + pos[1]
+                max_x, max_y = pos[0], pos[1]
+            elif max_attack == attack_list[pos[0]][pos[1]]:
+                if (pos[0] + pos[1]) < max_row_column_list:
+                    max_attack = attack_list[pos[0]][pos[1]]
+                    max_row_column_list = pos[0] + pos[1]
+                    max_x, max_y = pos[0], pos[1]
+                elif (pos[0] + pos[1]) == max_row_column_list:
+                    if max_y > pos[1]:
+                        max_attack = attack_list[pos[0]][pos[1]]
+                        max_row_column_list = pos[0] + pos[1]
+                        max_x, max_y = pos[0], pos[1]
+    if len(pos_list) >= 2:
+        min_attack = -INT_MAX
+        min_row_column_list = -INT_MAX
+        min_x, min_y = -INT_MAX, -INT_MAX
+        for pos in pos_list:
+            if min_attack < attack_list[pos[0]][pos[1]]:
+                min_attack = attack_list[pos[0]][pos[1]]
+                min_row_column_list = pos[0] + pos[1]
+                min_x, min_y = pos[0], pos[1]
+            elif min_attack == attack_list[pos[0]][pos[1]]:
+                if (pos[0] + pos[1]) > min_row_column_list:
+                    min_attack = attack_list[pos[0]][pos[1]]
                     min_row_column_list = pos[0] + pos[1]
                     min_x, min_y = pos[0], pos[1]
-            min_potam = [min_x, min_y]
+                elif (pos[0] + pos[1]) == min_row_column_list: 
+                    if min_y < pos[1]:
+                        min_attack = attack_list[pos[0]][pos[1]]
+                        min_row_column_list = pos[0] + pos[1]
+                        min_x, min_y = pos[0], pos[1]
+        min_potam = [min_x, min_y]
 
     else:
         min_potam = pos_list[0]
     
     #print(min_num, pos_list, min_potam)
-    grid[min_potam[0]][min_potam[1]] += (n+m)
     return min_potam
 
 def select_max_potam(min_potam):
@@ -76,23 +97,26 @@ def select_max_potam(min_potam):
             if grid[i][j] and [i,j] != min_potam:
                 if max_num == grid[i][j]:
                     pos_list.append([i,j])
-    
     if len(pos_list) >= 2:
-        max_attack_list = -1
+        max_attack = INT_MAX
+        max_row_column_list = INT_MAX
+        max_x, max_y = INT_MAX, INT_MAX
         for pos in pos_list:
-            if pos in attack_list:
-                if max_attack_list < attack_list.index(pos):
-                    max_attack_list = attack_list.index(pos)
-        if max_attack_list != -1:
-            max_potam = attack_list[max_attack_list]
-        else:
-            max_row_column_list = INT_MAX
-            max_x, max_y = INT_MAX, INT_MAX
-            for pos in pos_list:
-                if (pos[0] + pos[1]) <= max_row_column_list and max_y > pos[1]:
+            if max_attack > attack_list[pos[0]][pos[1]]:
+                max_attack = attack_list[pos[0]][pos[1]]
+                max_row_column_list = pos[0] + pos[1]
+                max_x, max_y = pos[0], pos[1]
+            elif max_attack == attack_list[pos[0]][pos[1]]:
+                if (pos[0] + pos[1]) < max_row_column_list:
+                    max_attack = attack_list[pos[0]][pos[1]]
                     max_row_column_list = pos[0] + pos[1]
                     max_x, max_y = pos[0], pos[1]
-            max_potam = [max_x, max_y]
+                elif (pos[0] + pos[1]) == max_row_column_list:
+                    if max_y > pos[1]:
+                        max_attack = attack_list[pos[0]][pos[1]]
+                        max_row_column_list = pos[0] + pos[1]
+                        max_x, max_y = pos[0], pos[1]
+        max_potam = [max_x, max_y]
 
     else:
         max_potam = pos_list[0]
@@ -106,10 +130,7 @@ def bfs(start, end):
     q.append([start[0], start[1]])
     visited[start[0]][start[1]]
     end_point_check = False
-
-    if start in attack_list:
-        attack_list.remove(start)
-    attack_list.insert(0, start)
+    
     attacked_list.append(start)
 
     while(q):
@@ -154,21 +175,36 @@ def init():
     back_x = [[ 0 for _ in range(m)] for __ in range(n)]
     back_y = [[ 0 for _ in range(m)] for __ in range(n)]
 
+def check():
+    count = 0
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] > 0:
+                count += 1
+    if count == 1:
+        return True
+    else:
+        return False
 
-
-for _ in range(2):  
+for i in range(k):  
     min_potam = select_min_potam()  
-    bfs(min_potam, select_max_potam(min_potam))
-    for i in range(m):
-        for j in range(n):
+    max_potam = select_max_potam(min_potam)
+    grid[min_potam[0]][min_potam[1]] += (n+m)
+
+    attack_list[min_potam[0]][min_potam[1]] = i + 1
+    bfs(min_potam, max_potam)
+    for i in range(n):
+        for j in range(m):
             if [i, j] not in attacked_list and grid[i][j] > 0:
                 grid[i][j] += 1
             if grid[i][j] < 0:
                 grid[i][j] = 0
-    #init()
+    init()
+    if check():
+        break
 result = -INT_MAX
-for i in range(m):
-    for j in range(n):
+for i in range(n):
+    for j in range(m):
         if result < grid[i][j]:
             result = grid[i][j]
     #     print(grid[i][j], end = ' ')
