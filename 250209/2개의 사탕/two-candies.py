@@ -23,7 +23,7 @@ for i in range(N):
         init_grid[i][j] = grid[i][j]
 
 dx, dy = [0,1,-1,0], [1,0,0,-1]
-
+# 0 우, 1 하, 2 상, 3 좌
 try_number = []
 try_list = []
 
@@ -63,20 +63,21 @@ def move_marble(marble, move_dir, marble_name):
             break
     return curr_x, curr_y, exit_check
 
+# 0 우, 1 하, 2 상, 3 좌
 def move_first(red, blue, move_dir):
-    if red[0] == blue[0] and move_dir == 2:
+    if red[0] == blue[0] and move_dir == 3:
         if red[1] > blue[1]: # 좌 빨강이 오른쪽일 경우 파랑 먼저
             return 2
         if red[1] < blue[1]:
             return 1
 
-    elif red[0] == blue[0] and move_dir == 3:
+    elif red[0] == blue[0] and move_dir == 0:
         if red[1] > blue[1]: # 우 빨강이 오른쪽일 경우 빨강 먼저
             return 1
         if red[1] < blue[1]:
             return 2
 
-    elif red[1] == blue[1] and move_dir == 0:
+    elif red[1] == blue[1] and move_dir == 2:
         if red[0] > blue[0]: # 상 빨강이 아래일 경우 파랑 먼저
             return 2
         if red[0] < blue[0]:
@@ -93,8 +94,8 @@ def move_first(red, blue, move_dir):
 def move(tries):
     global result
     curr_x, curr_y = 0, 0
-    red_exit_count, blue_exit_count = 0, 0
     bef_move_dir = -1
+    red_exit_count, blue_exit_count = 0, 0
     for count, move_dir in enumerate(tries):
         if bef_move_dir == move_dir:
             continue
@@ -116,15 +117,15 @@ def move(tries):
         if red_exit_count == 1 and blue_exit_count == 1:
             break
         
-        #print(red_exit_count, blue_exit_count)
         if red_exit_count == 1 and blue_exit_count != 1:
             result = min(result, count+1)
+            #print(tries, grid)
             break
 
 make_try_number(0)
 
 #상 0, 하 1, 좌 2, 우3
-#try_list = [[0,3,1]]
+#try_list = [[2]]
 for tries in try_list:
     move(tries)
     #print(grid)
