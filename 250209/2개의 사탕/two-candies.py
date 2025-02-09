@@ -44,13 +44,10 @@ def init():
     blue[0], blue[1] = init_blue[0], init_blue[1]
     red[0], red[1] = init_red[0], init_red[1]
 
-def move_marble(marble, move_dir):
+def move_marble(marble, move_dir, marble_name):
     exit_check = 0
     curr_x, curr_y = marble[0], marble[1]
     for i in range(10):
-        if grid[curr_x + dx[move_dir]][curr_y + dy[move_dir]] == '#':
-            break
-        
         if grid[curr_x + dx[move_dir]][curr_y + dy[move_dir]] == 'O':
             grid[curr_x][curr_y] = '.'
             curr_x, curr_y = curr_x + dx[move_dir], curr_y + dy[move_dir]
@@ -60,29 +57,32 @@ def move_marble(marble, move_dir):
         if grid[curr_x + dx[move_dir]][curr_y + dy[move_dir]] == '.':
             grid[curr_x][curr_y] = '.'
             curr_x, curr_y = curr_x + dx[move_dir], curr_y + dy[move_dir]
-            grid[curr_x][curr_y] = 'R'
+            grid[curr_x][curr_y] = marble_name
+        
+        else:
+            break
     return curr_x, curr_y, exit_check
 
 def move_first(red, blue, move_dir):
-    if red[0] == blue[0] and move_dir == '2':
+    if red[0] == blue[0] and move_dir == 2:
         if red[1] > blue[1]: # 좌 빨강이 오른쪽일 경우 파랑 먼저
             return 2
         if red[1] < blue[1]:
             return 1
 
-    elif red[0] == blue[0] and move_dir == '3':
+    elif red[0] == blue[0] and move_dir == 3:
         if red[1] > blue[1]: # 우 빨강이 오른쪽일 경우 빨강 먼저
             return 1
         if red[1] < blue[1]:
             return 2
 
-    elif red[1] == blue[1] and move_dir == '0':
+    elif red[1] == blue[1] and move_dir == 0:
         if red[0] > blue[0]: # 상 빨강이 아래일 경우 파랑 먼저
             return 2
         if red[0] < blue[0]:
             return 1
 
-    elif red[1] == blue[1] and move_dir == '1':
+    elif red[1] == blue[1] and move_dir == 1:
         if red[0] > blue[0]: # 하 빨강이 아래일 경우 빨강 먼저
             return 1
         if red[0] < blue[0]:
@@ -95,17 +95,17 @@ def move(tries):
     curr_x, curr_y = 0, 0
     red_exit_count, blue_exit_count = 0, 0
     for count, move_dir in enumerate(tries):
-        if count > result:
+        if count >= result:
             break
         if move_first(red, blue, move_dir) == 1:
-            red[0], red[1], exit_check = move_marble(red, move_dir)
+            red[0], red[1], exit_check = move_marble(red, move_dir, 'R')
             red_exit_count += exit_check
-            blue[0], blue[1], exit_check = move_marble(blue, move_dir)
+            blue[0], blue[1], exit_check = move_marble(blue, move_dir, 'B')
             blue_exit_count += exit_check
         else:
-            blue[0], blue[1], exit_check = move_marble(blue, move_dir)
+            blue[0], blue[1], exit_check = move_marble(blue, move_dir, 'B')
             blue_exit_count += exit_check
-            red[0], red[1], exit_check = move_marble(red, move_dir)
+            red[0], red[1], exit_check = move_marble(red, move_dir, 'R')
             red_exit_count += exit_check
 
         #print(red_exit_count, blue_exit_count)
@@ -116,9 +116,10 @@ def move(tries):
 make_try_number(0)
 
 #상 0, 하 1, 좌 2, 우3
-#try_list = [[3,1,2]]
+#try_list = [[0,3,1]]
 for tries in try_list:
     move(tries)
+    #print(grid)
     init()
 
 #print(grid)
