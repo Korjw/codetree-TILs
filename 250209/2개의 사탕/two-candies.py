@@ -6,7 +6,7 @@ red, blue, exit = [0,0], [0,0], [0,0]
 init_red, init_blue = [0,0], [0,0]
 init_grid = [['' for _ in range(M)] for __ in range(N)]
 
-result = []
+result = 100
 for i in range(N):
     for j in range(M):
         if grid[i][j] == 'R':
@@ -91,9 +91,12 @@ def move_first(red, blue, move_dir):
         return 1
 
 def move(tries):
+    global result
     curr_x, curr_y = 0, 0
     red_exit_count, blue_exit_count = 0, 0
     for count, move_dir in enumerate(tries):
+        if count > result:
+            break
         if move_first(red, blue, move_dir) == 1:
             red[0], red[1], exit_check = move_marble(red, move_dir)
             red_exit_count += exit_check
@@ -107,7 +110,7 @@ def move(tries):
 
         #print(red_exit_count, blue_exit_count)
         if red_exit_count == 1 and blue_exit_count != 1:
-            result.append(count+1)
+            result = min(result, count+1)
             break
 
 make_try_number(0)
@@ -120,8 +123,8 @@ for tries in try_list:
 
 #print(grid)
 #print(red,blue,exit)
-if len(result) > 0:
-    print(min(result))
+if result != 100:
+    print(result)
 else:
     print(-1)
 #print(min(result))
