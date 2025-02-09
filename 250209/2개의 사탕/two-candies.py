@@ -47,7 +47,7 @@ def init():
 def move_marble(marble, move_dir, marble_name):
     exit_check = 0
     curr_x, curr_y = marble[0], marble[1]
-    for i in range(10):
+    for i in range(max(N, M)):
         if grid[curr_x + dx[move_dir]][curr_y + dy[move_dir]] == 'O':
             grid[curr_x][curr_y] = '.'
             curr_x, curr_y = curr_x + dx[move_dir], curr_y + dy[move_dir]
