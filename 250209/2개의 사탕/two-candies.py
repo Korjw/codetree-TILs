@@ -22,7 +22,7 @@ for i in range(N):
         
         init_grid[i][j] = grid[i][j]
 
-dx, dy = [-1,1,0,0], [0,0,-1,1]
+dx, dy = [0,1,-1,0], [1,0,0,-1]
 
 try_number = []
 try_list = []
