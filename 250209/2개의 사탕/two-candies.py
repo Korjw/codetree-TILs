@@ -94,7 +94,10 @@ def move(tries):
     global result
     curr_x, curr_y = 0, 0
     red_exit_count, blue_exit_count = 0, 0
+    bef_move_dir = -1
     for count, move_dir in enumerate(tries):
+        if bef_move_dir == move_dir:
+            continue
         if count >= result:
             break
         if move_first(red, blue, move_dir) == 1:
@@ -107,6 +110,8 @@ def move(tries):
             blue_exit_count += exit_check
             red[0], red[1], exit_check = move_marble(red, move_dir, 'R')
             red_exit_count += exit_check
+
+        bef_move_dir = move_dir
 
         #print(red_exit_count, blue_exit_count)
         if red_exit_count == 1 and blue_exit_count != 1:
