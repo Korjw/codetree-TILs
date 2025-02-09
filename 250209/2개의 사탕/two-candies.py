@@ -113,6 +113,9 @@ def move(tries):
 
         bef_move_dir = move_dir
 
+        if red_exit_count == 1 and blue_exit_count == 1:
+            break
+        
         #print(red_exit_count, blue_exit_count)
         if red_exit_count == 1 and blue_exit_count != 1:
             result = min(result, count+1)
