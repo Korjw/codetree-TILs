@@ -41,9 +41,13 @@ def left2(i,j):
         grid[i][l] = grid[i][l+1]
     grid[i][n-1] = 0
 
-left()
-
+def sum():
+    #합치기
+    return
+    
 for i in range(n):
     for j in range(n):
         print(grid[i][j], end = ' ')
     print()
+
+# 함 이동 -> 합치기 -> 다시 함 이동
