@@ -1,6 +1,15 @@
 n = int(input())
 grid = [list(map(int,input().split())) for _ in range(n)]
+init_grid = [[0 for _ in range(n)]for __ in range(n)]
 
+for i in range(n):
+    for j in range(n):
+        init_grid[i][j] = grid[i][j]
+
+def init():
+    for i in range(n):
+        for j in range(n):
+            grid[i][j] = init_grid[i][j]
 def up():
     for j in range(n):
         for i in range(n-2,-1,-1):
@@ -94,8 +103,8 @@ make_try(0)
 
 result = -1
 for tries_list in try_list:
+    max_count = -1
     for tries in tries_list:
-        max_count = -1
         if tries == 0:
             up()
             up_sum()
@@ -116,7 +125,8 @@ for tries_list in try_list:
             for j in range(n):
                 if max_count < grid[i][j]:
                     max_count = grid[i][j]
-        result = max(result, max_count)
+    result = max(result, max_count)
+    init()
 
 print(result)
 # 함 이동 -> 합치기 -> 다시 함 이동
