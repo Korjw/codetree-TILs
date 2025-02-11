@@ -36,11 +36,11 @@ def check_heng(y):
         if length_count == L and block_last_height - block_first_height == 1:
             count = 0
             for o in range(L*2):
-                if not out_of_range(i-L+1+o, y) and slip_grid[i-L+1+o][y] == 1:
+                if not out_of_range(i-L+1+o, y) and (slip_grid[i-L+1+o][y] == 1 or slip_grid[i-L+1+o][y] == 3):
                     slip_grid[i-L+1+o][y] = 0
                     count += 1
             if count == 0:
-                slip_grid[i-L][y] = 2
+                slip_grid[i-L][y] += 2
 
     
 
@@ -71,11 +71,11 @@ def check_yeol(x): # 오른쪽 왼쪽 체크
         if length_count == L and block_last_height - block_first_height == 1:
             count = 0
             for p in range(L*2): # 범위 더 넓게 체크
-                if not out_of_range(x, j-L+1+p) and slip_grid2[x][j-L+1+p] == 1:
+                if not out_of_range(x, j-L+1+p) and (slip_grid2[x][j-L+1+p] == 1 or slip_grid2[x][j-L+1+p] == 3):
                     slip_grid2[x][j-L+1+p] = 0
                     count += 1
             if count == 0:
-                slip_grid2[x][j-L] = 2
+                slip_grid2[x][j-L] += 2
     
 result = 0
 
@@ -86,10 +86,10 @@ def check():
         check_count = True
         for j in range(1,n):
             #print(i, j, check_num, grid[i][j], slip_grid2[i][j])
-            if grid[i][j] > check_num and slip_grid2[i][j] == 1:
+            if grid[i][j] > check_num and (slip_grid2[i][j] == 1 or slip_grid2[i][j] == 3):
                 check_num = grid[i][j]
             
-            elif grid[i][j] < check_num and slip_grid2[i][j-1] == 2:
+            elif grid[i][j] < check_num and (slip_grid2[i][j-1] == 2 or slip_grid2[i][j-1] == 3):
                 check_num = grid[i][j]
             
             elif grid[i][j] == check_num:
@@ -99,7 +99,7 @@ def check():
                 check_count = False
                 break
         if check_count:
-            #print(i)
+            #print(1,i)
             result += 1
     
     for i in range(n):
@@ -107,10 +107,10 @@ def check():
         check_count = True
         for j in range(1,n):
             #print(j, i, check_num, grid[j][i], slip_grid[j][i], slip_grid[j-1][i])
-            if grid[j][i] > check_num and slip_grid[j][i] == 1:
+            if grid[j][i] > check_num and (slip_grid[j][i] == 1 or slip_grid[j][i] == 3):
                 check_num = grid[j][i]
             
-            elif grid[j][i] < check_num and slip_grid[j-1][i] == 2:
+            elif grid[j][i] < check_num and (slip_grid[j-1][i] == 2 or slip_grid[j-1][i] == 3):
                 check_num = grid[j][i]
             
             elif grid[j][i] == check_num:
@@ -120,7 +120,7 @@ def check():
                 check_count = False
                 break
         if check_count:
-            #print(i)
+            #print(2,i)
             result += 1
         
 
