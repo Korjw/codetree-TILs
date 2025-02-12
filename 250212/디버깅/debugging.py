@@ -31,8 +31,8 @@ def make_pos(cnt, max_num):
         return
     
     for i in range(1, h+1):
-        for j in range(n):
-            if not visited[i][j] and grid[i][j] == 0 and line_grid[i][j] == 0 and [i,j] not in temp_pos and [i,j] not in temp_line_pos and [i,j+1] not in temp_line_pos :
+        for j in range(n-1):
+            if not visited[i][j] and grid[i][j] == 0 and line_grid[i][j+1] == 0 and line_grid[i][j] == 0 and [i,j] not in temp_pos and [i,j] not in temp_line_pos and [i,j+1] not in temp_line_pos :
                 temp_pos.append([i,j])
                 temp_line_pos.append([i,j])
                 temp_line_pos.append([i,j+1])
@@ -51,25 +51,40 @@ temp_pos = []
 temp_line_pos = []
 make_pos(0,3)
 
-print(poss_pos)
+#print(poss_pos)
 
-def simul():
-    try_grid = [[0 for _ in range(n)] for __ in range(h+1)]
-    try_line_grid = [[0 for _ in range(n)] for __ in range(h+1)]
-    # 1. 시뮬레이션 하기 try grid에 그리기
+def out_of_range(X,y):
+    return y < 0 or y > n-1
+def simul(i):
+    for x, y in poss_line_pos[i]:
+        try_line_grid[x][y] = 1
+    
+    for x, y in poss_pos[i]:
+        try_grid[x][y] = 1
 
-def move():
-    # 2. 이동해보고
-    가능하면 끝
+    for l in range(n):
+        curr_y = l
+        for k in range(h,-1,-1):
+            #print(k,curr_y,l,try_line_grid[k][curr_y],try_grid[k][curr_y])
+            if try_line_grid[k][curr_y] == 1 and try_grid[k][curr_y] == 1:
+                curr_y += 1
+            elif not out_of_range(k,curr_y) and try_line_grid[k][curr_y] == 1 and try_grid[k][curr_y-1] == 1:
+                curr_y -= 1
+        if curr_y != l:
+            return False
+    return True
 
-for i in range(h+1):
-    for j in range(n):
-        print(grid[i][j], end = ' ')
-    print()
 
-print()
+result = -1
+for i in range(len(poss_pos)):
+    init()
+    if simul(i):
+        result = len(poss_pos[i])
+        break
 
-for i in range(h+1):
-    for j in range(n):
-        print(line_grid[i][j], end = ' ')
-    print()
+print(result)
+
+# for i in range(h+1):
+#     for j in range(n):
+#         print(try_line_grid[i][j], end = ' ')
+#     print()
