@@ -76,6 +76,8 @@ def simul(i):
 
 
 result = -1
+poss_pos.insert(0, [])
+poss_line_pos.insert(0, [])
 for i in range(len(poss_pos)):
     init()
     if simul(i):
