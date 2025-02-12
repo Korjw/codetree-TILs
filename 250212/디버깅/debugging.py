@@ -43,14 +43,6 @@ def make_pos(cnt, max_num):
                 temp_line_pos.pop()
                 visited[i][j] = False
 
-make_pos(0,1)
-temp_pos = []
-temp_line_pos = []
-make_pos(0,2)
-temp_pos = []
-temp_line_pos = []
-make_pos(0,3)
-
 #print(poss_pos)
 
 def out_of_range(X,y):
@@ -78,11 +70,21 @@ def simul(i):
 result = -1
 poss_pos.insert(0, [])
 poss_line_pos.insert(0, [])
-for i in range(len(poss_pos)):
-    init()
-    if simul(i):
-        result = len(poss_pos[i])
+
+for k in range(3):
+    for i in range(len(poss_pos)):
+        init()
+        if simul(i):
+            result = len(poss_pos[i])
+            break
+    if result > -1:
         break
+    temp_pos = []
+    temp_line_pos = []
+    poss_pos = []
+    poss_line_pos = []
+    make_pos(0,k+1)
+    #print(poss_pos)
 
 print(result)
 
