@@ -71,13 +71,13 @@ result = -1
 poss_pos.insert(0, [])
 poss_line_pos.insert(0, [])
 
-for k in range(3):
+for k in range(4):
     for i in range(len(poss_pos)):
         init()
         if simul(i):
             result = len(poss_pos[i])
             break
-    if result > -1:
+    if result > -1 or k == 3:
         break
     temp_pos = []
     temp_line_pos = []
