@@ -25,40 +25,43 @@ def roate(): # x, y는 끝점
 
     for x, y in dragon:
         rotate_grid[x+diff_x][y+diff_y] = 1
-    
-    # for i in range(201):
-    #     for j in range(201):
-    #         if rotate_grid[i][j]:
-    #            print(i,j)
-    #print()
+    rotate_grid[first[0]+diff_x][first[1]+diff_y] += 1
 
     rotate_grid = list(map(list, zip(*rotate_grid[::-1])))
 
+    # for i in range(201):
+    #     for j in range(201):
+    #         if rotate_grid[i][j]:
+    #            print(i,j,rotate_grid[i][j])
+    # print()
+
     for i in range(201):
         for j in range(201):
             if rotate_grid[i][j]:
+                if rotate_grid[i][j] == 2:
+                    rotate_grid[i-diff_x][j-diff_y] += 1
                 rotate_grid[i][j] = 0
-                rotate_grid[i-diff_x][j-diff_y] = 1
+                rotate_grid[i-diff_x][j-diff_y] += 1
                 if [i-diff_x, j-diff_y] != last:
                     dragon.append([i-diff_x, j-diff_y])
     
-    for i in range(201):
-        for j in range(201):
+    for i in range(101):
+        for j in range(101):
             if rotate_grid[i][j]:
                 check_grid(i, j)
 
-    max_last_x, max_last_y, max_last_dist = -1, -1, -1
+    # for i in range(201):
+    #     for j in range(201):
+    #         if rotate_grid[i][j]:
+    #            print(i,j,rotate_grid[i][j])
+    # print()
+
     for i in range(201):
         for j in range(201):
             #print(rotate_grid[i][j], end = ' ')
-            if rotate_grid[i][j]:
-                #print(5456, i, j, last, abs(last[0]-i) + abs(last[0]-j))
-                if max_last_dist < abs(last[0]-i) + abs(last[0]-j):
-                    max_last_x, max_last_y = i, j
-                    max_last_dist = abs(last[0]-i) + abs(last[0]-j)
-        #print()
-
-    last[0], last[1] = max_last_x, max_last_y
+            if rotate_grid[i][j] == 2:
+                last[0], last[1] = i, j 
+                break
     #print(12345, last)
 
     # 돌리고
@@ -88,7 +91,7 @@ for _ in range(n):
     dragon = []
     # dragon_list 추가 grid에서 이어졌는지 체크 ex. [i+1, j], [i, j+1]
     # i,j i+1,j+1 까지 4개 조가
-
+dragon_list.sort()
 #print(dragon_list)
 
 # for i in range(101):
@@ -100,5 +103,6 @@ result = 0
 for i in range(100):
     for j in range(100):
         if [i,j] in dragon_list and [i,j+1] in dragon_list and  [i+1,j] in dragon_list and [i+1,j+1] in dragon_list :
+            #print(i,j)
             result +=1
 print(result)
