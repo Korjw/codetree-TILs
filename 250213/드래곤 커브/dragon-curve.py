@@ -102,7 +102,7 @@ for _ in range(n):
 result = 0
 for i in range(100):
     for j in range(100):
-        if [i,j] not in dragon_list:
+        if len(grid[i][j]) == 0:
             continue
         if [i,j] in dragon_list and [i,j+1] in dragon_list and [i+1,j] in dragon_list and [i+1,j+1] in dragon_list :
             #print(i,j)
