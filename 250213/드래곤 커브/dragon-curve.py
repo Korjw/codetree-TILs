@@ -73,7 +73,7 @@ def draw_dragon(x,y,d,g):
         roate()
         init()
 
-for _ in range(2):
+for _ in range(n):
     x,y,d,g = map(int,input().split())
     first[0], first[1] = x, y
     last[0], last[1] = x + dx[d], y + dy[d]
