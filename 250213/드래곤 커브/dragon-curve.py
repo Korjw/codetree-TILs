@@ -91,7 +91,7 @@ for _ in range(n):
     dragon = []
     # dragon_list 추가 grid에서 이어졌는지 체크 ex. [i+1, j], [i, j+1]
     # i,j i+1,j+1 까지 4개 조가
-dragon_list.sort()
+#dragon_list.sort()
 #print(dragon_list)
 
 # for i in range(101):
@@ -102,7 +102,9 @@ dragon_list.sort()
 result = 0
 for i in range(100):
     for j in range(100):
-        if [i,j] in dragon_list and [i,j+1] in dragon_list and  [i+1,j] in dragon_list and [i+1,j+1] in dragon_list :
+        if [i,j] not in dragon_list:
+            continue
+        if [i,j] in dragon_list and [i,j+1] in dragon_list and [i+1,j] in dragon_list and [i+1,j+1] in dragon_list :
             #print(i,j)
             result +=1
 print(result)
