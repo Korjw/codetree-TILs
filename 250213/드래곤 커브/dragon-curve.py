@@ -7,11 +7,11 @@ dx, dy = [0,-1,0,1], [1,0,-1,0]
 grid = [[[] for _ in range(101)] for __ in range(101)] # 어디랑 이어진지 적기
 dragon = [] #n 차 드래곤
 first, last = [0,0], [0,0] # 시작점, 끝점
-rotate_grid =[[0 for _ in range(11)] for __ in range(11)]
+rotate_grid =[[0 for _ in range(201)] for __ in range(201)]
 dragon_list =[]
 
 def out_of_range(x,y):
-    return x < 0 or y < 0 or x > 10 or y > 10
+    return x < 0 or y < 0 or x > 200 or y > 200
 
 def check_grid(x, y):
     global grid, rotate_grid
@@ -21,48 +21,43 @@ def check_grid(x, y):
 
 def roate(): # x, y는 끝점
     global last, rotate_grid
-    diff_x, diff_y = 5 - last[0], 5 - last[1]
+    diff_x, diff_y = 100 - last[0], 100 - last[1]
 
     for x, y in dragon:
-        print(x,y,diff_x,diff_y)
         rotate_grid[x+diff_x][y+diff_y] = 1
     
-    # for i in range(11):
-    #     for j in range(11):
+    # for i in range(201):
+    #     for j in range(201):
     #         print(rotate_grid[i][j], end = ' ')
     #     print()
     # print()
 
     rotate_grid = list(map(list, zip(*rotate_grid[::-1])))
 
-    for i in range(11):
-        for j in range(11):
+    for i in range(201):
+        for j in range(201):
             if rotate_grid[i][j]:
                 rotate_grid[i][j] = 0
                 rotate_grid[i-diff_x][j-diff_y] = 1
                 if [i-diff_x, j-diff_y] != last:
-                    print(last)
                     dragon.append([i-diff_x, j-diff_y])
-    print()
     
-    for i in range(11):
-        for j in range(11):
+    for i in range(201):
+        for j in range(201):
             if rotate_grid[i][j]:
                 check_grid(i, j)
-    print()
 
     max_last_x, max_last_y, max_last_dist = -1, -1, -1
-    for i in range(11):
-        for j in range(11):
-            print(rotate_grid[i][j], end = ' ')
+    for i in range(201):
+        for j in range(201):
+            #print(rotate_grid[i][j], end = ' ')
             if rotate_grid[i][j]:
                 if max_last_dist < abs(last[0]-i) + abs(last[0]-j):
                     max_last_x, max_last_y = i, j
-        print()
-    print()
+        #print()
 
     last[0], last[1] = max_last_x, max_last_y
-    print(12345, last)
+    #print(12345, last)
 
     # 돌리고
     # 돌려진 것들 중 시작점에서(first) 가장 먼거 구하기
@@ -71,29 +66,37 @@ def roate(): # x, y는 끝점
 
 def init():
     global rotate_grid
-    rotate_grid =[[0 for _ in range(11)] for __ in range(11)]
+    rotate_grid =[[0 for _ in range(201)] for __ in range(201)]
 
 def draw_dragon(x,y,d,g):
-    for _ in range(3):
+    for _ in range(g):
         roate()
         init()
 
-for _ in range(1):
+for _ in range(2):
     x,y,d,g = map(int,input().split())
     first[0], first[1] = x, y
     last[0], last[1] = x + dx[d], y + dy[d]
-    print(first,last)
     grid[first[0]][first[1]].append(last[:])
     grid[last[0]][last[1]].append(first[:])
-    dragon.append(first)
+    dragon.append(first[:])
     dragon.append(last[:])
     draw_dragon(x,y,d,g)
+    dragon_list.extend(dragon[:])
+    dragon = []
     # dragon_list 추가 grid에서 이어졌는지 체크 ex. [i+1, j], [i, j+1]
     # i,j i+1,j+1 까지 4개 조가
 
-print(dragon)
+#print(dragon_list)
 
-for i in range(11):
-    for j in range(11):
-        print(grid[i][j], end = ' ')
-    print()
+# for i in range(11):
+#     for j in range(11):
+#         print(grid[i][j], end = ' ')
+#     print()
+
+result = 0
+for i in range(100):
+    for j in range(100):
+        if [i,j] in dragon_list and [i,j+1] in dragon_list and  [i+1,j] in dragon_list and [i+1,j+1] in dragon_list :
+            result +=1
+print(result)
