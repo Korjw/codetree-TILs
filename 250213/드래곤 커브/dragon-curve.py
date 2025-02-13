@@ -28,9 +28,9 @@ def roate(): # x, y는 끝점
     
     # for i in range(201):
     #     for j in range(201):
-    #         print(rotate_grid[i][j], end = ' ')
-    #     print()
-    # print()
+    #         if rotate_grid[i][j]:
+    #            print(i,j)
+    #print()
 
     rotate_grid = list(map(list, zip(*rotate_grid[::-1])))
 
@@ -52,8 +52,10 @@ def roate(): # x, y는 끝점
         for j in range(201):
             #print(rotate_grid[i][j], end = ' ')
             if rotate_grid[i][j]:
+                #print(5456, i, j, last, abs(last[0]-i) + abs(last[0]-j))
                 if max_last_dist < abs(last[0]-i) + abs(last[0]-j):
                     max_last_x, max_last_y = i, j
+                    max_last_dist = abs(last[0]-i) + abs(last[0]-j)
         #print()
 
     last[0], last[1] = max_last_x, max_last_y
@@ -89,10 +91,10 @@ for _ in range(n):
 
 #print(dragon_list)
 
-# for i in range(11):
-#     for j in range(11):
-#         print(grid[i][j], end = ' ')
-#     print()
+# for i in range(101):
+#     for j in range(101):
+#         if len(grid[i][j]):
+#             print(i,j)
 
 result = 0
 for i in range(100):
