@@ -74,7 +74,7 @@ def init():
     rotate_grid =[[0 for _ in range(11)] for __ in range(11)]
 
 def draw_dragon(x,y,d,g):
-    for _ in range(2):
+    for _ in range(3):
         roate()
         init()
 
