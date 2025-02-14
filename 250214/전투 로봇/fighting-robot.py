@@ -34,10 +34,10 @@ def bfs(x, y):
     while q:
         dist, curr_x, curr_y = q.popleft()
         for dir_x, dir_y in zip(dx, dy):
-            if not out_of_range(curr_x+dir_x, curr_y+dir_y) and grid[curr_x+dir_x][curr_y+dir_y] < level and not visited[curr_x+dir_x][curr_y+dir_y]:
+            if not out_of_range(curr_x+dir_x, curr_y+dir_y) and grid[curr_x+dir_x][curr_y+dir_y] <= level and not visited[curr_x+dir_x][curr_y+dir_y]:
                 visited[curr_x+dir_x][curr_y+dir_y] = True
                 q.append([dist+1, curr_x+dir_x, curr_y+dir_y])
-                if grid[curr_x+dir_x][curr_y+dir_y]:
+                if grid[curr_x+dir_x][curr_y+dir_y] < level and grid[curr_x+dir_x][curr_y+dir_y]:
                     try_list.append([dist+1, curr_x+dir_x, curr_y+dir_y])
 
 def kill(x,y,t):
@@ -51,6 +51,7 @@ def kill(x,y,t):
         level_count = 0
 
 while True:
+#for _ in range(1):
     bfs(robot[0], robot[1])
     try_list.sort()
     if try_list:
