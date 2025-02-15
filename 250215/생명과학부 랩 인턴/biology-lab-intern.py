@@ -66,7 +66,6 @@ def combine_gompang():
                 for i in range(1,len(gompang_grid[x][y])):
                     #print(temp_gompang[gompang_grid[x][y][i][0]])
                     gompang.remove(temp_gompang[gompang_grid[x][y][i][0]])
-                gompang_grid[x][y] = [gompang_grid[x][y][0]]
 
 for i in range(m):
     check_yeol(i)
