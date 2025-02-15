@@ -1,6 +1,5 @@
 n, m, k = map(int,input().split())
 
-grid = [[0 for _ in range(m)] for __ in range(n)]
 gompang = []
 gompang_grid = [[[] for _ in range(m)] for __ in range(n)]
 dx, dy = [-1,1,0,0], [0,0,1,-1]
@@ -65,11 +64,12 @@ def combine_gompang():
                     temp_gompang.append(gompang[i][:])
                 for i in range(1,len(gompang_grid[x][y])):
                     #print(temp_gompang[gompang_grid[x][y][i][0]])
-                    gompang.remove(temp_gompang[gompang_grid[x][y][i][0]])
+                    #print(temp_gompang, gompang)
+                    if gompang.remove(temp_gompang[gompang_grid[x][y][i][0]]) != None:
+                        print(1234)
 
 for i in range(m):
     check_yeol(i)
-    # 먼저 체크
     gompang_move()
     #print(gompang)
     init()
