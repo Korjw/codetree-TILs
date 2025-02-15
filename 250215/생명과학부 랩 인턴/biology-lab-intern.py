@@ -76,6 +76,8 @@ for i in range(m):
     init()
     make_gompang_grid()
     combine_gompang()
+    init()
+    make_gompang_grid()
 
 # print(gompang)
 # print()
