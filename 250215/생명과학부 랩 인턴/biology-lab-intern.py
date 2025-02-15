@@ -4,6 +4,7 @@ gompang = []
 gompang_grid = [[[] for _ in range(m)] for __ in range(n)]
 dx, dy = [-1,1,0,0], [0,0,1,-1]
 result = 0
+remove_list = []
 
 for i in range(k):
     x,y,s,d,b = map(int,input().split())
@@ -11,8 +12,9 @@ for i in range(k):
     gompang_grid[x-1][y-1].append([i,b])
 
 def init():
-    global gompang_grid
+    global gompang_grid, remove_list
     gompang_grid = [[[] for _ in range(m)] for __ in range(n)]
+    remove_list = []
 
 def out_of_range(x,y):
     return x < 0 or y < 0 or x > n-1 or y > m-1
@@ -56,11 +58,12 @@ def combine_gompang():
         for y in range(m):
             if len(gompang_grid[x][y]) >= 2:
                 gompang_grid[x][y].sort(key = lambda x : -x[1])
-                temp_gompang = []
-                for i in range(len(gompang)):
-                    temp_gompang.append(gompang[i][:])
                 for i in range(1,len(gompang_grid[x][y])):
-                    gompang.remove(temp_gompang[gompang_grid[x][y][i][0]])
+                    remove_list.append(gompang[gompang_grid[x][y][i][0]])
+
+def remove_gompang():
+    for item in remove_list:
+        gompang.remove(item)
 
 for i in range(m):
     check_yeol(i)
@@ -68,6 +71,7 @@ for i in range(m):
     init()
     make_gompang_grid()
     combine_gompang()
+    remove_gompang()
     init()
     make_gompang_grid()
 
