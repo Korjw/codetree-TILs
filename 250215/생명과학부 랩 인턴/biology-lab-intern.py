@@ -31,7 +31,6 @@ def gompang_move():
     global gompang
     for i in range(len(gompang)):
         for _ in range(gompang[i][2]):
-            #print(i, gompang[i][2], gompang[i][0],dx[gompang[i][3]], gompang[i][1],dy[gompang[i][3]])
             if not out_of_range(gompang[i][0]+dx[gompang[i][3]], gompang[i][1]+dy[gompang[i][3]]):
                 gompang[i][0] = gompang[i][0]+dx[gompang[i][3]]
                 gompang[i][1] = gompang[i][1]+dy[gompang[i][3]]
@@ -48,7 +47,6 @@ def check_yeol(y):
     global gompang_grid, result
     for x in range(n):
         if len(gompang_grid[x][y]):
-            #print(y, gompang_grid[x][y][0])
             result += gompang_grid[x][y][0][1]
             del gompang[gompang_grid[x][y][0][0]]
             return
@@ -58,31 +56,19 @@ def combine_gompang():
         for y in range(m):
             if len(gompang_grid[x][y]) >= 2:
                 gompang_grid[x][y].sort(key = lambda x : -x[1])
-                #print(gompang_grid[x][y], gompang_grid[x][y][0])
                 temp_gompang = []
                 for i in range(len(gompang)):
                     temp_gompang.append(gompang[i][:])
                 for i in range(1,len(gompang_grid[x][y])):
-                    #print(temp_gompang[gompang_grid[x][y][i][0]])
-                    #print(temp_gompang, gompang)
-                    if gompang.remove(temp_gompang[gompang_grid[x][y][i][0]]) != None:
-                        print(1234)
+                    gompang.remove(temp_gompang[gompang_grid[x][y][i][0]])
 
 for i in range(m):
     check_yeol(i)
     gompang_move()
-    #print(gompang)
     init()
     make_gompang_grid()
     combine_gompang()
     init()
     make_gompang_grid()
 
-# print(gompang)
-# print()
-# for i in range(10):
-#     for j in range(10):
-#         if not out_of_range(i,j):
-#             print(gompang_grid[i][j], end = ' ')
-#     print()
 print(result)
