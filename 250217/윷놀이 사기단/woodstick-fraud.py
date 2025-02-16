@@ -81,8 +81,8 @@ def move(curr_idx, cnt, end):
     global count, result
     if cnt == 10 or end:
         count += 1
-        if result < sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3]):
-            result = max(result, sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3]))
+        #if result < sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3]):
+        result = max(result, sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3]))
             #print(result, scores, direction)
         #if (sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3])) == 222:
             #print(scores, direction)
