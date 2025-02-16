@@ -68,6 +68,10 @@ def horse_move(j, move_list):
         direction[j][-1] = [2, 6]
     elif scores[j][-1] == 25:
         direction[j][-1] = [2, 3]
+    elif scores[j][-1] == 30:
+        direction[j][-1] = [2, 4]
+    elif scores[j][-1] == 35:
+        direction[j][-1] = [2, 5]
 
     for i in range(4):
         if len(direction[i]) > 0 and i != j and direction[j][-1][1] != 50 and (direction[i][-1] == direction[j][-1]):
@@ -83,9 +87,9 @@ def move(curr_idx, cnt, end):
         count += 1
         #if result < sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3]):
         result = max(result, sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3]))
-            #print(result, scores, direction)
-        #if (sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3])) == 222:
-            #print(scores, direction)
+        #print(result, scores, direction)
+        # if (sum(scores[0])+sum(scores[1])+sum(scores[2])+sum(scores[3])) == 230:
+        #     print(scores, direction)
         return
 
     if curr_idx < n:
@@ -101,8 +105,9 @@ move(0, 0, False)
 #print(count)
 print(result)
 
-# [[10, 30, 40, 0], [6, 16, 22, 24, 34, 40], [], []] 
-# [[[1, 0], [1, 5], [2, 6], [2, 50]], 
-# [[0, 2], [0, 7], [0, 10], [0, 11], [0, 16], [2, 6]], [], []]
-# 5 5 2 3
-# 3 5 3 1 5 3
+# 5 1 5 5 4 1 2 5 1 3 
+# [[10, 30, 35], [2, 12, 22, 30, 28, 26, 35], [], []]
+#  [[[1, 0], [1, 5], [1, 6]], [[0, 0], [0, 5], [0, 10], [3, 0], [3, 1], [3, 3], [3, 6]], [], []]
+
+# 5 5 1
+# 1 5 5 4 1 2 3
