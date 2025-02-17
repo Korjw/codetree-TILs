@@ -13,10 +13,10 @@ for i in range(4):
     horse_list.append([i,2,p3,d3-1])
     horse_list.append([i,3,p4,d4-1])
 
-sulrae = [0,0,grid[0][0][1]] # x 위치, y 위치, 방향
+sulrae = [[0,0,grid[0][0][1]]] # x 위치, y 위치, 방향
 horse_list.remove([0,0,grid[0][0][0],grid[0][0][1]])
 grid[0][0] = [-1,-1]
-score = [grid[0][0][0]]
+score = [[0,0,grid[0][0][0],grid[0][0][1]]]
 
 for i in range(4):
     for j in range(4):
@@ -26,17 +26,24 @@ for i in range(4):
 def move(end):
     if end:
         return
-    while True:
-        curr_x, curr_y, direction = sulrae[0], sulrae[1], sulrae[2]
+    while end != True:
+        print(end)
         count = 0
         for i in range(4):
-            return
-        if count != 0:
-            move(end)
-        else:
-            end = True
+            #갈 수 있는지 조사
+            end = 함수
 
-    return
+            if end != True:
+                move(end)
+                count+=1
+
+            score.pop()
+            sulrae.pop()
+            # grid 정상화
+            # horse_list 정상화
+        if count == 0:
+            end = True
+        
 move(False)
 
 print(sulrae)
