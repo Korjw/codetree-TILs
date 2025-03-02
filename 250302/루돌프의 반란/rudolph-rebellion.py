@@ -98,16 +98,20 @@ def rudol_crash(x,y,direction,t,stun_yn,score_yn):
             return
         santa[santa_idx][1], santa[santa_idx][2] = move_x, move_y
         if grid[move_x][move_y][0]:
-            santa_crash(move_x, move_y, direction,1,0,0)
+            santa_crash(move_x, move_y, direction,1,0,0,'r')
     return
 
-def santa_crash(x,y,direction,t,stun_yn,score_yn):
+def santa_crash(x,y,direction,t,stun_yn,score_yn,rs):
     #상호작용은 score x
     if grid[x][y][0]:
         santa_idx = santa.index([grid[x][y][0], x, y])
         if direction == -1:
             direction = (grid[x][y][1] + 2) % 4
-        move_x, move_y = x + sdx[direction] * t, y + sdy[direction] * t
+        #print(direction)
+        if rs == 'r':
+            move_x, move_y = x + rdx[direction] * t, y + rdy[direction] * t
+        else:
+            move_x, move_y = x + sdx[direction] * t, y + sdy[direction] * t
         if score_yn:
             score[santa[santa_idx][0]] += t
         if stun_yn:
@@ -118,7 +122,7 @@ def santa_crash(x,y,direction,t,stun_yn,score_yn):
             return
         santa[santa_idx][1], santa[santa_idx][2] = move_x, move_y
         if grid[move_x][move_y][0]:
-            santa_crash(move_x, move_y, direction,1,0,0)
+            santa_crash(move_x, move_y, direction,1,0,0,'s')
 
     return
 
@@ -165,7 +169,7 @@ for _ in range(M):
 
     santa_move()
 
-    santa_crash(rudol[0], rudol[1],-1,D,1,1)
+    santa_crash(rudol[0], rudol[1],-1,D,1,1,'s')
     make_grid()
 
     plus_score()
