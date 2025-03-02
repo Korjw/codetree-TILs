@@ -124,7 +124,7 @@ def santa_crash(x,y,direction,t,stun_yn,score_yn,rs):
             return
         santa[santa_idx][1], santa[santa_idx][2] = move_x, move_y
         if grid[move_x][move_y][0]:
-            santa_crash(move_x, move_y, direction,1,0,0,'s')
+            santa_crash(move_x, move_y, direction,1,0,0,rs)
 
     return
 
