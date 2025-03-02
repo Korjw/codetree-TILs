@@ -82,6 +82,8 @@ def santa_move():
     for i, st in enumerate(santa):
         if st[0] not in remove_santa_list and [st[0],1] not in stun_santa_list and [st[0],2] not in stun_santa_list:
             select_santa_dir(i, st[0])
+            santa_crash(rudol[0], rudol[1],-1,D,1,1,'s')
+            make_grid()
     return
 
 def rudol_crash(x,y,direction,t,stun_yn,score_yn):
@@ -168,9 +170,6 @@ for _ in range(M):
     make_grid()
 
     santa_move()
-
-    santa_crash(rudol[0], rudol[1],-1,D,1,1,'s')
-    make_grid()
 
     plus_score()
     # 점수 기록
