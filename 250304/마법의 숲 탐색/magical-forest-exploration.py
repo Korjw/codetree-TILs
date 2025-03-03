@@ -66,7 +66,7 @@ def make_grid(i):
 
     return True
 
-move_dx, move_dy = [1,0,0], [0,-1,1]
+move_dx, move_dy = [-1,1,0,0], [0,0,-1,1]
 def move(x,y,value,exit_yn):
     global result_x
     visited[x][y] = True
@@ -104,8 +104,9 @@ for i in range(K):
     result += (max(result_x) -2)
     
 print(result)
-# print(gol)
+#print(gol)
 # for i in range(R):
 #     for j in range(C):
 #         print(grid[i][j], end = ' ')
 #     print()
+
