@@ -85,8 +85,13 @@ def move(x,y,value,exit_yn):
         if not out_of_range(move_x, move_y) and not visited[move_x][move_y] and exit_yn: # 출구에서 이동
             #print(x,y,move_x,move_y,out_of_range(move_x, move_y),value,grid[move_x][move_y])
             if grid[move_x][move_y] and grid[move_x][move_y] != value:
-                move(move_x,move_y,grid[move_x][move_y],0)
-                
+                if grid[move_x][move_y] < 0:
+                    move(move_x,move_y,grid[move_x][move_y],1)
+                else:
+                    move(move_x,move_y,grid[move_x][move_y],0)
+
+
+# 북동남서   
 result = 0
 for i in range(K):
     move_gol(1,gol[i][1],i)
