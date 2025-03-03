@@ -1,5 +1,5 @@
 R,C,K = map(int,input().split())
-R = R + 1
+R = R + 2
 gol = []
 dir_x, dir_y = [-1,0,1,0], [0,1,0,-1]
 # 북동남서
@@ -94,14 +94,14 @@ def move(x,y,value,exit_yn):
 # 북동남서   
 result = 0
 for i in range(K):
-    move_gol(1,gol[i][1],i)
+    move_gol(0,gol[i][1],i)
     if make_grid(i) == False:
         grid = [[0 for _ in range(C)]for __ in range(R)]
         continue
     visited = [[False for _ in range(C)]for __ in range(R)]
     result_x = []
     move(gol[i][0], gol[i][1], i+1, 0)
-    result += max(result_x)
+    result += (max(result_x) -1)
     
 print(result)
 # print(gol)
