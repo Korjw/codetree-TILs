@@ -54,7 +54,7 @@ def move_gol(x,y,i):
         return
 
 def make_grid(i):
-    if gol[i][0]-1 < 1:
+    if gol[i][0]-1 < 2:
         return False
 
     grid[gol[i][0]-1][gol[i][1]] = i+1
