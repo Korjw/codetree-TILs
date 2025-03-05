@@ -71,7 +71,7 @@ def move_strange(t):
         if (t+1) % strange[i][3] == 0:
             move_x, move_y = strange[i][0]+dir_x[strange[i][2]], strange[i][1]+dir_y[strange[i][2]]
             if not out_of_range(move_x, move_y, 0) and grid[move_x][move_y] == 0:
-                grid[move_x][move_y] = 3
+                grid[move_x][move_y] = 6
                 grid[strange[i][0]][strange[i][1]] = 0
                 strange[i][0], strange[i][1] = move_x, move_y
 #서남동북
@@ -97,6 +97,28 @@ def move_low_2(x):
         return [time_x-1, time_y+(4*M-1-x)]
     return
 
+
+def move_low_3(x):
+    if x >= 0 and x <= M-1:
+        return [x,0]
+    if x >= M and x <= 2*M-1:
+        return [M-1, x-M]
+    if x >= 2*M and x <= 3*M-1:
+        return [3*M-1-x , M-1]
+    if x >= 3*M and x <= 4*M-1:
+        return [0, 4*M-1-x]
+    return
+
+def move_low_4(x,y):
+    if y == time_y-1:
+        return [x-time_x, 22]
+    if x == time_x+M:
+        return [M+(y-time_y),22]
+    if y == time_y+M:
+        return [(3*M-1-(x-time_x)),22]
+    if x == time_x-1:
+        return [(4*M-1-(y-time_y)),22]
+
 def move_pos():
     global pos, visited
     temp = []
@@ -121,11 +143,16 @@ def move_pos():
                 count += 1
 
         if h < M and h > 0:
-            dir_hx, dir_hh = [-1,1,0], [0,0,-1]
+            dir_hx, dir_hh = [-1,1,0,0], [0,0,-1,1]
             for dx, dh in zip(dir_hx, dir_hh):
                 move_x, move_h = convert(x + dx), h + dh
                 #print(move_x, move_h)
-                if time_grid[move_h][move_x] == 0 and not visited[move_x][y][move_h]:
+                if move_h == M:
+                    move_x, move_y = move_low_3(move_x)
+                    if top[move_x][move_y] == 0 and not visited[move_x][move_y][move_h]:
+                        visited[move_x][move_y][move_h] = True
+                        temp.append([move_x, move_y, move_h])
+                elif time_grid[move_h][move_x] == 0 and not visited[move_x][y][move_h]:
                     visited[move_x][y][move_h] = True
                     temp.append([move_x, y, move_h])
 
@@ -137,7 +164,7 @@ def move_pos():
                 if move_h == -1:
                     move_x, move_y = move_low_2(move_x)
                     #print(214354,move_x,move_y)
-                    if not out_of_range(move_x,move_y, move_h) and (grid[move_x][move_y] == 0 or grid[move_x][move_y] == 4) and grid[move_x][move_y] != 3 and not visited[move_x][move_y][M+1]:
+                    if not out_of_range(move_x,move_y, move_h) and (grid[move_x][move_y] == 0 or grid[move_x][move_y] == 4) and not visited[move_x][move_y][M+1]:
                         visited[move_x][move_y][M+1] = True
                         temp.append([move_x, move_y, -1])
                 else:
@@ -148,7 +175,13 @@ def move_pos():
         if h == -1:
             for dx, dy in zip(dir_x, dir_y):
                 move_x, move_y, move_h = x + dx, y + dy, -1
-                if not out_of_range(move_x, move_y, move_h) and (grid[move_x][move_y] == 0 or grid[move_x][move_y] == 4) and grid[move_x][move_y] != 3 and not visited[move_x][move_y][M+1]:
+                if not out_of_range(move_x, move_y, move_h) and grid[move_x][move_y] == 3:
+                    move_x, move_y = move_low_4(x, y)
+                    if not visited[move_x][move_y][0]:
+                        visited[move_x][move_y][0] = True
+                        temp.append([move_x, move_y, 0])
+
+                elif not out_of_range(move_x, move_y, move_h) and (grid[move_x][move_y] == 0 or grid[move_x][move_y] == 4) and not visited[move_x][move_y][M+1]:
                     visited[move_x][move_y][M+1] = True
                     temp.append([move_x, move_y, move_h])
     
@@ -167,10 +200,10 @@ def check():
     return False
 
 for st in strange:
-    grid[st[0]][st[1]] = 3
+    grid[st[0]][st[1]] = 6
 
 result = 0
-for i in range(1000):
+for i in range(2500):
     move_strange(i)
     move_pos()
     tuple_arr = [tuple(j) for j in pos]
