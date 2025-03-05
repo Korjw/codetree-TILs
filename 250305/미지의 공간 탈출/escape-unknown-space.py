@@ -189,7 +189,7 @@ def move_pos():
     #print(temp)
 
 pos = [[curr_x, curr_y, curr_h]]
-visited = [[[False for _ in range(M+2)] for __ in range(23)] for ___ in range(4*M)]
+visited = [[[False for _ in range(100)] for __ in range(100)] for ___ in range(100)]
 
 visited[curr_x][curr_y][curr_h] = True
 
