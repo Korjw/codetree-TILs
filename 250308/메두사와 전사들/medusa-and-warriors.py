@@ -113,11 +113,10 @@ def light(sr,sc):
                 lx,ly,rx,ry = convert(lx),convert(ly),convert(rx),convert(ry)
                 #print(345,count,lx,ly,rx,ry)
                 for j in range(ly,ry+1):
-                    wor_count += len(wor_grid[lx][j])
-
                     if light_grid[lx][j] == 2:
                         continue
                     light_grid[lx][j] = 1
+                    wor_count += len(wor_grid[lx][j])
                     #print(456,count,lx,j,wor_grid[lx][j])
                     if len(wor_grid[lx][j]):
                         for item in wor_grid[lx][j]:
@@ -149,10 +148,10 @@ def light(sr,sc):
                 lx,ly,rx,ry = convert(lx),convert(ly),convert(rx),convert(ry)
                 #print(lx,ly,rx,ry)
                 for i in range(lx,rx+1):
-                    wor_count += len(wor_grid[i][ly])
                     if light_grid[i][ly] == 2:
                         continue
                     light_grid[i][ly] = 1
+                    wor_count += len(wor_grid[i][ly])
                     if len(wor_grid[i][ly]):
                         for item in wor_grid[i][ly]:
                             temp.append(item)
@@ -270,7 +269,8 @@ def move_wor():
             if not out_of_range(move_x, move_y) and light_grid[move_x][move_y] != 1 and dist > abs(sr-move_x) + abs(sc-move_y):
                 wor_list[i][1], wor_list[i][2] = move_x, move_y
                 result[0] += 1
-                break    
+                break   
+    wor_check()
     dir_x2, dir_y2 = [0,0,-1,1], [-1,1,0,0]
     for i in range(len(wor_list)):
         if wor_list[i][0] in stun_wor_list:
@@ -278,7 +278,7 @@ def move_wor():
         dist = abs(sr-wor_list[i][1]) + abs(sc-wor_list[i][2])
         for dx, dy in zip(dir_x2, dir_y2):
             move_x, move_y = wor_list[i][1]+dx, wor_list[i][2]+dy
-            #print(i,move_x, move_y,sr,sc,dist > abs(sr-move_x) + abs(sc-move_y))
+            #print(i,move_x, wor_list[i][1], wor_list[i][2], move_y,sr,sc,dist > abs(sr-move_x) + abs(sc-move_y))
             if not out_of_range(move_x, move_y) and light_grid[move_x][move_y] != 1 and dist > abs(sr-move_x) + abs(sc-move_y):
                 wor_list[i][1], wor_list[i][2] = move_x, move_y
                 result[0] += 1
@@ -308,7 +308,7 @@ def make_grid():
     wor_grid  = [[[] for _ in range(N)] for __ in range(N)]
     for wor in wor_list:
         wor_grid[wor[1]][wor[2]].append(wor[:])
-
+#for _ in range(1):
 while True:
     result = [0,0,0]
     stun_wor_list = []
@@ -340,6 +340,7 @@ while True:
 # 전사이동거리
 # 돌 전사
 # 공격한 전사
+# print(wor_list)
 # for i in range(N):
 #     for j in range(N):
 #         print(wor_grid[i][j], end = ' ')
