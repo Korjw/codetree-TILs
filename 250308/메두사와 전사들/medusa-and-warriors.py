@@ -126,19 +126,19 @@ def light(sr,sc):
                         
                         if j == sc:
                             if lx > sr:
-                                make_shadow(4,lx,j,lx,j)
+                                make_shadow(count,4,lx,j,lx,j)
                             else:
-                                make_shadow(0,lx,j,lx,j)
+                                make_shadow(count,0,lx,j,lx,j)
                         elif j < sc:
                             if lx > sr:
-                                make_shadow(3,lx+1,j,lx,j)
+                                make_shadow(count,3,lx,j,lx,j)
                             else:
-                                make_shadow(1,lx,j,lx-1,j)
+                                make_shadow(count,1,lx,j,lx,j)
                         else:
                             if lx > sr:
-                                make_shadow(5,lx+1,j,lx,j)
+                                make_shadow(count,5,lx,j,lx,j)
                             else:
-                                make_shadow(7,lx,j,lx-1,j)
+                                make_shadow(count,7,lx,j,lx,j)
 
                         light_grid[lx][j] = 1
 
@@ -159,19 +159,19 @@ def light(sr,sc):
                         #print(456,i,sr,ly,sc)
                         if i == sr:
                             if ly > sc:
-                                make_shadow(6,i,ly,i,ly)
+                                make_shadow(count,6,i,ly,i,ly)
                             else:
-                                make_shadow(2,i,ly,i,ly)
+                                make_shadow(count,2,i,ly,i,ly)
                         elif i < sr:
                             if ly > sc:
-                                make_shadow(7,i,ly+1,i,ly)
+                                make_shadow(count,7,i,ly,i,ly)
                             else:
-                                make_shadow(1,i,ly,i,ly-1)
+                                make_shadow(count,1,i,ly,i,ly)
                         else:
                             if ly > sc:
-                                make_shadow(5,i,ly+1,i,ly)
+                                make_shadow(count,5,i,ly,i,ly)
                             else:
-                                make_shadow(3,i,ly,i,ly-1)
+                                make_shadow(count,3,i,ly,i,ly)
                         
                         light_grid[i][ly] = 1
 
@@ -206,21 +206,48 @@ def light(sr,sc):
 
     return 
 
-
-dir_slx, dir_sly, dir_srx, dir_sry = [-1,-1,0,0,0,0,0,-1], [0,-1,-1,-1,0,0,0,0], [0,0,0,1,1,1,0,0],[0,0,0,0,0,1,1,1]
-
-def make_shadow(direction, lx, ly, rx, ry):
+def make_shadow(count, direction, lx, ly, rx, ry):
     global light_grid
-    
-    #print(direction,lx,ly,rx,ry)
-    dlx, dly, drx, dry = dir_slx[direction], dir_sly[direction], dir_srx[direction], dir_sry[direction]
+
     for _ in range(N):
-        lx,ly,rx,ry = lx+dlx,ly+dly,rx+drx,ry+dry
-
+        if count == 0:
+            if direction == 0:
+                lx,ly,rx,ry = lx-1,ly,rx-1,ry
+            if direction == 1:
+                lx,ly,rx,ry = lx-1,ly-1,rx-1,ry
+            if direction == 7:
+                lx,ly,rx,ry = lx-1,ly,rx-1,ry+1
+            if out_of_range_2(lx):
+                return
+        elif count == 1:
+            if direction == 3:
+                lx,ly,rx,ry = lx+1,ly-1,rx+1,ry
+            if direction == 4:
+                lx,ly,rx,ry = lx+1,ly,rx+1,ry
+            if direction == 5:
+                lx,ly,rx,ry = lx+1,ly,rx+1,ry+1
+            if out_of_range_2(lx):
+                return
+        elif count == 2:
+            if direction == 1:
+                lx,ly,rx,ry = lx-1,ly-1,rx,ry-1
+            if direction == 2:
+                lx,ly,rx,ry = lx,ly-1,rx,ry-1
+            if direction == 3:
+                lx,ly,rx,ry = lx,ly-1,rx+1,ry-1
+            if out_of_range_2(ly):
+                return
+        elif count == 3:
+            if direction == 7:
+                lx,ly,rx,ry = lx-1,ly+1,rx,ry+1
+            if direction == 6:
+                lx,ly,rx,ry = lx,ly+1,rx,ry+1
+            if direction == 5:
+                lx,ly,rx,ry = lx,ly+1,rx+1,ry+1
+            if out_of_range_2(ly):
+                return
+        
         #print(direction,lx,ly,rx,ry)
-
-        if out_of_range(lx,ly) or out_of_range(rx,ry):
-            break
         lx,ly,rx,ry = convert(lx),convert(ly),convert(rx),convert(ry)
         for i in range(lx,rx+1):
             for j in range(ly,ry+1):
@@ -320,3 +347,4 @@ while True:
 # print()
 
 # print(sr,sc)
+
