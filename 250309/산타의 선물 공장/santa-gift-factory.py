@@ -77,8 +77,7 @@ for _ in range(q):
                 if idx not in remove_belt_list:
                     select_idx = idx
                     break
-            for item in belt[b_num-1]:
-                belt[select_idx].append(item)
+            belt[select_idx].extend(belt[b_num-1])
             
             belt_count = len(belt[b_num-1])
             for _ in range(belt_count):
