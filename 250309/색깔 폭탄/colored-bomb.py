@@ -57,7 +57,7 @@ for i in range(n):
         if grid[i][j] == 0:
             red_list.append([i,j])
 while True:
-#for _ in range(2):
+#for _ in range(4):
     visited = [[False for _ in range(n)] for __ in range(n)]
     bomb_list = [[] for _ in range(m)]
     temp_list = []
@@ -83,7 +83,11 @@ while True:
                 dfs(i,j)
                 #print(temp_list)
                 temp_list.sort(key = lambda x : (-x[0], -x[1], x[2]))
-                bomb_list[grid[i][j]-1].append([len(temp_list), temp_list[:][:]])
+                red_count = 0
+                for item in temp_list:
+                    if item[0] == 0:
+                        red_count+=1
+                bomb_list[grid[i][j]-1].append([len(temp_list), temp_list[:][:], red_count])
 
     init()
 
@@ -92,15 +96,15 @@ while True:
 
     for i in range(m):
         if len(bomb_list[i]):
-            bomb_list[i].sort(key = lambda x : (-x[0], -x[1][0][1], x[1][0][2]))
+            bomb_list[i].sort(key = lambda x : (-x[0], x[2], -x[1][0][1], x[1][0][2]))
             bomb_count[i] = bomb_list[i][0][:]
         else:
-            bomb_count[i] = [-1,[[-1,-1,-1]]]
+            bomb_count[i] = [-1,[[-1,-1,-1]],-1]
     #print(bomb_list)
 
 
-    bomb_count.sort(key = lambda x : (-x[0], -x[1][0][1], x[1][0][2]))
-    #print(bomb_count)
+    bomb_count.sort(key = lambda x : (-x[0], x[2], -x[1][0][1], x[1][0][2]))
+    #print(bomb_count[0])
 
     bomb(bomb_count[0])
 
@@ -119,6 +123,8 @@ while True:
 
 # for i in range(n):
 #     for j in range(n):
+#         if grid[i][j] < 0:
+#             grid[i][j] += 9 
 #         print(grid[i][j], end = ' ')
 #     print()
 print(result)
