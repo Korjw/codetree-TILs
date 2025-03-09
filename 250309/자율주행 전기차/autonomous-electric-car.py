@@ -38,7 +38,7 @@ def select_sg():
                 vistied[move_x][move_y] = True
     #print(pos_list)
     pos_list.sort(key = lambda x : (x[3], x[1], x[2]))
-    #print(pos_list)
+
     if not len(pos_list):
         return -1,-1,-1,-1
     return pos_list[0]
@@ -53,14 +53,15 @@ def sg_move(start_x, start_y, end_x, end_y):
         x,y,dist = q.popleft()
         for dx, dy in zip(dir_x, dir_y):
             move_x, move_y, move_dist = x+dx, y+dy,dist+1
-            if not out_of_range(move_x, move_y) and not vistied[move_x][move_y]:
+            if not out_of_range(move_x, move_y) and not vistied[move_x][move_y] and not road_grid[move_x][move_y]:
                 if [move_x, move_y] == [end_x,end_y]:
                     return move_x, move_y, move_dist
                 q.append([move_x, move_y,move_dist])
                 vistied[move_x][move_y] = True
-# 2 2 6
+    return -1,-1,-1
+# 4 3 105
 while True:
-#for _ in range(5):
+#for _ in range(1):
     sg_grid = [[0 for _ in range(n)] for __ in range(n)]
     make_grid()
     q = deque()
@@ -77,6 +78,8 @@ while True:
         c -= use_c
     #print(sg_move(sg_list[sg_num-1][1],sg_list[sg_num-1][2],sg_list[sg_num-1][3],sg_list[sg_num-1][4]))
     curr_x, curr_y, use_c = sg_move(sg_list[sg_num-1][1],sg_list[sg_num-1][2],sg_list[sg_num-1][3],sg_list[sg_num-1][4])
+    if use_c == -1:
+        break
     if use_c > c:
         c -= use_c
         break
