@@ -14,15 +14,12 @@ def out_of_range(x,y):
 
 def dfs(x,y):
     global temp_list
+    visited[x][y] = True
 
     for dx, dy in zip(dir_x, dir_y):
         move_x, move_y = x+dx, y+dy
-        if not out_of_range(move_x, move_y) and not visited[move_x][move_y] and (grid[move_x][move_y] == grid[x][y] or grid[move_x][move_y] == 0):
-            temp_list.append([grid[move_x][move_y], move_x, move_y])
-            if grid[move_x][move_y] == 0:
-                grid[move_x][move_y] = grid[x][y]
-            else:
-                visited[move_x][move_y] = True
+        if not out_of_range(move_x, move_y) and not visited[move_x][move_y] and grid[move_x][move_y] == grid[x][y]:
+            temp_list.append([temp_grid[move_x][move_y], move_x, move_y])
             dfs(move_x, move_y)
 
 def bomb(bomb_count):
@@ -35,13 +32,32 @@ def gravity():
             if grid[i][j] == -2 and grid[i-1][j] != -1:
                 grid[i][j] = grid[i-1][j]
                 grid[i-1][j] = -2
-def clear():
+def init_red(num):
     for i in range(n):
         for j in range(n):
             grid[i][j] = temp_grid[i][j]
+    
+    for red in red_list:
+        grid[red[0]][red[1]] = num
+        visited[red[0]][red[1]] = False
+
+def init():
+    for i in range(n):
+        for j in range(n):
+            grid[i][j] = temp_grid[i][j]
+    
+    for red in red_list:
+        grid[red[0]][red[1]] = 0
 
 result = 0
-for k in range(5):
+red_list = []
+
+for i in range(n):
+    for j in range(n):
+        if grid[i][j] == 0:
+            red_list.append([i,j])
+while True:
+#for _ in range(2):
     visited = [[False for _ in range(n)] for __ in range(n)]
     bomb_list = [[] for _ in range(m)]
     temp_list = []
@@ -52,16 +68,24 @@ for k in range(5):
         for j in range(n):
             temp_grid[i][j] = grid[i][j]
 
+    red_list = []
+
+    for i in range(n):
+        for j in range(n):
+            if grid[i][j] == 0:
+                red_list.append([i,j])
+
     for i in range(n):
         for j in range(n):
             if not visited[i][j] and grid[i][j] > 0:
-                clear()
+                init_red(grid[i][j])
                 temp_list = [[grid[i][j],i,j]]
-                visited[i][j] = True
                 dfs(i,j)
                 #print(temp_list)
                 temp_list.sort(key = lambda x : (-x[0], -x[1], x[2]))
                 bomb_list[grid[i][j]-1].append([len(temp_list), temp_list[:][:]])
+
+    init()
 
     if not len(temp_list):
         break
