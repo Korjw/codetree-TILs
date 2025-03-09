@@ -57,7 +57,7 @@ for i in range(n):
         if grid[i][j] == 0:
             red_list.append([i,j])
 while True:
-#for _ in range(4):
+#for _ in range(19):
     visited = [[False for _ in range(n)] for __ in range(n)]
     bomb_list = [[] for _ in range(m)]
     temp_list = []
@@ -79,7 +79,7 @@ while True:
         for j in range(n):
             if not visited[i][j] and grid[i][j] > 0:
                 init_red(grid[i][j])
-                temp_list = [[grid[i][j],i,j]]
+                temp_list = [[temp_grid[i][j],i,j]]
                 dfs(i,j)
                 #print(temp_list)
                 temp_list.sort(key = lambda x : (-x[0], -x[1], x[2]))
@@ -128,3 +128,12 @@ while True:
 #         print(grid[i][j], end = ' ')
 #     print()
 print(result)
+
+# 7 4
+# -1 3 3 1 1 1 3 
+# -1 -1 3 4 3 4 4 
+# 4 4 -1 0 -1 2 2 
+# 1 1 4 4 -1 1 1 
+# 1 0 4 4 2 3 2 
+# 3 3 -1 2 2 -1 3 
+# 3 3 4 1 0 -1 0 
