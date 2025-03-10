@@ -279,7 +279,7 @@ def check():
     return True
 
 result = 0
-for i in range(2):
+for i in range(102):
     result = i+1
     start_wind()
     result_grid = [[0 for _ in range(n)] for __ in range(n)]
@@ -298,6 +298,9 @@ for i in range(2):
 
     dis()
     if check():
+        break
+    if result > 100:
+        result = -1
         break
 
 print(result)
@@ -326,3 +329,11 @@ print(result)
     # for j in range(n):
     #     print(p_n_grid[i][j], end = ' ')
     # print()
+
+# 4 2 1
+# 1 0 0 0
+# 0 3 4 0
+# 0 0 0 0
+# 0 0 0 1
+# 4 4 0
+# 1 2 1
