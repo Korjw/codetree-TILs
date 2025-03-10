@@ -279,10 +279,10 @@ def check():
     return True
 
 result = 0
+result_grid = [[0 for _ in range(n)] for __ in range(n)]
 for i in range(102):
     result = i+1
     start_wind()
-    result_grid = [[0 for _ in range(n)] for __ in range(n)]
 
     for ac in air_con_grid:
         for i in range(n):
@@ -330,10 +330,11 @@ print(result)
     #     print(p_n_grid[i][j], end = ' ')
     # print()
 
-# 4 2 1
-# 1 0 0 0
-# 0 3 4 0
-# 0 0 0 0
-# 0 0 0 1
-# 4 4 0
-# 1 2 1
+# 5 2 3
+# 0 0 0 0 0
+# 4 0 1 1 1
+# 0 0 1 1 0
+# 0 0 0 0 0
+# 0 3 0 0 0
+# 3 2 0
+# 3 2 1
