@@ -17,17 +17,12 @@ wall_list = []
 
 for i in range(m): # s 0 위, 1 왼
     x,y,s = map(int,input().split())
-    wall_list.append([i,x-1,y-1,s])
+    wall_list.append([x-1,y-1,s])
 
-wall_grid = [[0 for _ in range(n)] for __ in range(n)]
+wall_grid = [[[] for _ in range(n)] for __ in range(n)]
 
 for wall in wall_list:
-    if wall[3] == 0:
-        wall_grid[wall[1]][wall[2]] = 1
-        wall_grid[wall[1]-1][wall[2]] = 1
-    else:
-        wall_grid[wall[1]][wall[2]] = 1
-        wall_grid[wall[1]][wall[2]-1] = 1
+    wall_grid[wall[0]][wall[1]].append(wall[2]+1)
 
 #---------
 
@@ -43,28 +38,31 @@ def convert(x):
     if x > n-1:
         return n-1
     return x
-
+        
+#1 위쪽 벽 2 왼쪽벽
 def wind(i,x,y,num,direction):
     if direction == 0: #좌
         dir_wx, dir_wy = [-1,0,1], [-1,-1,-1]
-        curr_wall_yn = False
-        if wall_grid[x][y]:
-            curr_wall_yn = True
 
-        if not out_of_range(x-1,y) and wall_grid[x-1][y] and not out_of_range(x,y-1) and wall_grid[x][y-1] and curr_wall_yn:
+        if [1,2] == wall_grid[x][y]:
             dir_wx, dir_wy = [1], [-1]
-        elif not out_of_range(x+1,y) and wall_grid[x+1][y] and not out_of_range(x,y-1) and wall_grid[x][y-1] and curr_wall_yn:
+
+        elif 2 in wall_grid[x][y]and not out_of_range(x-1,y) and 1 in wall_grid[x-1][y]:
             dir_wx, dir_wy = [-1], [-1]
 
-        elif not out_of_range(x-1,y) and wall_grid[x-1][y] and curr_wall_yn:
+        elif 1 in wall_grid[x][y]:
             dir_wx, dir_wy = [0,1], [-1,-1]
-        elif not out_of_range(x+1,y) and wall_grid[x+1][y] and curr_wall_yn:
+
+        elif not out_of_range(x+1,y) and 1 in wall_grid[x+1][y] :
             dir_wx, dir_wy = [-1,0], [-1,-1]
-        elif not out_of_range(x-1,y-1) and wall_grid[x-1][y-1] and not out_of_range(x-1,y) and wall_grid[x-1][y]:
+
+        elif not out_of_range(x-1,y) and 2 in wall_grid[x-1][y]:
             dir_wx, dir_wy = [0,1], [-1,-1]
-        elif not out_of_range(x,y-1) and wall_grid[x][y-1] and curr_wall_yn:
+
+        elif 2 in wall_grid[x][y]:
             dir_wx, dir_wy = [-1,1], [-1,-1]
-        elif not out_of_range(x-1,y-1) and wall_grid[x-1][y-1] and not out_of_range(x-1,y) and wall_grid[x-1][y]:
+
+        elif not out_of_range(x+1,y) and 2 in wall_grid[x+1][y]:
             dir_wx, dir_wy = [-1,0], [-1,-1]
 
         for wx, wy in zip(dir_wx, dir_wy):
@@ -74,24 +72,27 @@ def wind(i,x,y,num,direction):
 
     if direction == 2: # 우
         dir_wx, dir_wy = [-1,0,1], [1,1,1]
-        curr_wall_yn = False
-        if wall_grid[x][y]:
-            curr_wall_yn = True
 
-        if not out_of_range(x-1,y) and wall_grid[x-1][y] and not out_of_range(x,y+1) and wall_grid[x][y+1] and curr_wall_yn:
+#1 위쪽 벽 2 왼쪽벽
+        if 1 in wall_grid[x][y] and not out_of_range(x,y+1) and 2 in  wall_grid[x][y+1]: # 아래만 흐름
             dir_wx, dir_wy = [1], [1]
-        elif not out_of_range(x+1,y) and wall_grid[x+1][y] and not out_of_range(x,y+1) and wall_grid[x][y+1] and curr_wall_yn:
+
+        elif not out_of_range(x+1,y) and 1 in wall_grid[x+1][y] and not out_of_range(x,y+1) and 2 in wall_grid[x][y+1]: # 위로만 흐름
             dir_wx, dir_wy = [-1], [1]
 
-        elif not out_of_range(x-1,y) and wall_grid[x-1][y] and curr_wall_yn:
+        elif 1 in wall_grid[x][y]:
             dir_wx, dir_wy = [0,1], [1,1]
-        elif not out_of_range(x+1,y) and wall_grid[x+1][y] and curr_wall_yn:
+
+        elif not out_of_range(x+1,y) and 1 in wall_grid[x+1][y]:
             dir_wx, dir_wy = [-1,0], [1,1]
-        elif not out_of_range(x-1,y+1) and wall_grid[x-1][y+1] and not out_of_range(x-1,y) and wall_grid[x-1][y]:
+
+        elif not out_of_range(x-1,y+1) and 2 in wall_grid[x-1][y+1]:
             dir_wx, dir_wy = [0,1], [1,1]
-        elif not out_of_range(x,y+1) and wall_grid[x][y+1] and curr_wall_yn:
+
+        elif not out_of_range(x,y+1) and 2 in wall_grid[x][y+1]:
             dir_wx, dir_wy = [-1,1], [1,1]
-        elif not out_of_range(x+1,y+1) and wall_grid[x+1][y+1] and not out_of_range(x+1,y) and wall_grid[x+1][y]:
+            
+        elif not out_of_range(x+1,y+1) and 2 in wall_grid[x+1][y+1]:
             dir_wx, dir_wy = [-1,0], [1,1]
 
         for wx, wy in zip(dir_wx, dir_wy):
@@ -101,28 +102,27 @@ def wind(i,x,y,num,direction):
 
     if direction == 1: # 상
         dir_wx, dir_wy = [-1,-1,-1], [-1,0,1]
-        curr_wall_yn = False
 
-        if wall_grid[x][y]:
-            curr_wall_yn = True
-        if not out_of_range(x,y-1) and wall_grid[x][y-1] and not out_of_range(x-1,y) and wall_grid[x-1][y] and curr_wall_yn:
+#1 위쪽 벽 2 왼쪽벽
+        if [1,2] == wall_grid[x][y]:
             dir_wx, dir_wy = [-1], [1]
-        elif not out_of_range(x,y+1) and wall_grid[x][y+1] and not out_of_range(x-1,y) and wall_grid[x-1][y] and curr_wall_yn:
-            dir_wx, dir_wy = [1], [1]
-        elif not out_of_range(x,y-1) and wall_grid[x][y-1] and curr_wall_yn:
-            #print(1,x,y)
+
+        elif 1 in wall_grid[x][y] and not out_of_range(x,y+1) and 2 in wall_grid[x][y+1]:
+            dir_wx, dir_wy = [-1], [-1]
+
+        elif 2 in wall_grid[x][y]:
             dir_wx, dir_wy = [-1,-1], [0,1]
-        elif not out_of_range(x,y+1) and wall_grid[x][y+1] and curr_wall_yn:
-            #print(2,x,y)
+
+        elif not out_of_range(x,y+1) and 2 in wall_grid[x][y+1]:
             dir_wx, dir_wy = [-1,-1], [-1,0]
-        elif not out_of_range(x-1,y-1) and wall_grid[x-1][y-1] and not out_of_range(x,y-1) and wall_grid[x][y-1]:
-            #print(3,x,y)
+
+        elif not out_of_range(x,y-1) and 1 in wall_grid[x][y-1]:
             dir_wx, dir_wy = [-1,-1], [0,1]
-        elif not out_of_range(x-1,y) and wall_grid[x-1][y] and curr_wall_yn:
-            #print(4,x,y)
+
+        elif 1 in wall_grid[x][y]:
             dir_wx, dir_wy = [-1,-1], [-1,1]
-        elif not out_of_range(x-1,y+1) and wall_grid[x-1][y+1] and not out_of_range(x,y+1) and wall_grid[x][y+1]:
-            #print(5,x,y)
+
+        elif not out_of_range(x,y+1) and 1 in wall_grid[x][y+1]:
             dir_wx, dir_wy = [-1,-1], [-1,0]
 
         for wx, wy in zip(dir_wx, dir_wy):
@@ -134,26 +134,26 @@ def wind(i,x,y,num,direction):
         dir_wx, dir_wy = [1,1,1], [-1,0,1]
         curr_wall_yn = False
 
-        if wall_grid[x][y]:
-            curr_wall_yn = True
-        if not out_of_range(x,y-1) and wall_grid[x][y-1] and not out_of_range(x+1,y) and wall_grid[x+1][y] and curr_wall_yn:
+#1 위쪽 벽 2 왼쪽벽
+        if 2 in wall_grid[x][y] and not out_of_range(x-1,y) and 1 in wall_grid[x-1][y]:
             dir_wx, dir_wy = [1], [1]
-        elif not out_of_range(x,y+1) and wall_grid[x][y+1] and not out_of_range(x+1,y) and wall_grid[x+1][y] and curr_wall_yn:
+
+        elif not out_of_range(x,y+1) and 2 in wall_grid[x][y+1] and not out_of_range(x-1,y) and 1 in wall_grid[x-1][y]:
             dir_wx, dir_wy = [1], [-1]
-        elif not out_of_range(x,y-1) and wall_grid[x][y-1] and curr_wall_yn:
-            #print(1,x,y)
+
+        elif 2 in wall_grid[x][y]:
             dir_wx, dir_wy = [1,1], [0,1]
-        elif not out_of_range(x,y+1) and wall_grid[x][y+1] and curr_wall_yn:
-            #print(2,x,y)
+
+        elif not out_of_range(x,y+1) and 2 in wall_grid[x][y+1]:
             dir_wx, dir_wy = [1,1], [-1,0]
-        elif not out_of_range(x+1,y-1) and wall_grid[x+1][y-1] and not out_of_range(x,y-1) and wall_grid[x][y-1]:
-            #print(3,x,y)
+
+        elif not out_of_range(x-1,y-1) and 1 in wall_grid[x-1][y-1]:
             dir_wx, dir_wy = [1,1], [0,1]
-        elif not out_of_range(x+1,y) and wall_grid[x+1][y] and curr_wall_yn:
-            #print(4,x,y)
-            dir_wx, dir_wy = [1,1], [1,1]
-        elif not out_of_range(x+1,y+1) and wall_grid[x+1][y+1] and not out_of_range(x,y+1) and wall_grid[x][y+1]:
-            #print(5,x,y)
+
+        elif not out_of_range(x-1,y) and 1 in wall_grid[x-1][y]:
+            dir_wx, dir_wy = [1,1], [-1,1]
+
+        elif not out_of_range(x-1,y+1) and 1 in wall_grid[x-1][y+1]:
             dir_wx, dir_wy = [1,1], [-1,0]
 
         for wx, wy in zip(dir_wx, dir_wy):
@@ -233,31 +233,32 @@ def start_wind():
                 count -= 1
 
 def spread():
-    dir_x, dir_y = [1,0], [0,1]
+    dir_x, dir_y = [-1,0], [0,-1]
     
+#1 위쪽 벽 2 왼쪽벽
     for i in range(n):
         for j in range(n):
-            curr_wall_yn = False
-            if wall_grid[i][j]:
-                curr_wall_yn = True
+            dir_x, dir_y = [-1,0], [0,-1]
+            if wall_grid[i][j] == [1]:
+                dir_x, dir_y = [0], [-1]
+            if wall_grid[i][j] == [2]:
+                dir_x, dir_y = [-1], [0]
+            if wall_grid[i][j] == [1,2]:
+                continue
+
             for dx, dy in zip(dir_x, dir_y):
                 tem = result_grid[i][j]
-
                 move_x, move_y = i+dx, j+dy
 
                 if not out_of_range(move_x, move_y):
-                    #print(curr_wall_yn, wall_grid[move_x][move_y])
-                    if curr_wall_yn and  wall_grid[move_x][move_y]:
-                        continue
+                    #print(i,j,move_x,move_y,result_grid[i][j],result_grid[move_x][move_y])
+                    if result_grid[i][j] > result_grid[move_x][move_y]:
+                        #print(i,j,move_x,move_y,result_grid[i][j], result_grid[move_x][move_y])
+                        p_n_grid[i][j] -= abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
+                        p_n_grid[move_x][move_y] += abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
                     else:
-                        #print(i,j,move_x,move_y,result_grid[i][j],result_grid[move_x][move_y])
-                        if result_grid[i][j] > result_grid[move_x][move_y]:
-                            #print(i,j,move_x,move_y,result_grid[i][j], result_grid[move_x][move_y])
-                            p_n_grid[i][j] -= abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
-                            p_n_grid[move_x][move_y] += abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
-                        else:
-                            p_n_grid[i][j] += abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
-                            p_n_grid[move_x][move_y] -= abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
+                        p_n_grid[i][j] += abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
+                        p_n_grid[move_x][move_y] -= abs(result_grid[i][j] - result_grid[move_x][move_y]) // 4
 
 def dis():
     for j in range(n):
@@ -332,7 +333,7 @@ print(result)
     #     print(p_n_grid[i][j], end = ' ')
     # print()
 
-#4 3 1
+# 4 3 1
 # 1 0 0 1 
 # 0 0 2 0 
 # 0 0 2 0 
@@ -340,3 +341,4 @@ print(result)
 # 3 1 0
 # 2 2 0
 # 1 2 1
+
