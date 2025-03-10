@@ -43,23 +43,22 @@ def wind(i,x,y,num,direction):
                 air_con_grid[i][x+wx][x+wy] = num
 
 # 좌,상,우,하
-dir_lx, dir_ly, dir_hx. dir_hy = [0,0,-1,0],[0,0,1,0], [0,0,1,0], [0,0,1,0]
+dir_lx, dir_ly, dir_hx, dir_hy = [0,0,-1,0],[0,0,1,0], [0,0,1,0], [0,0,1,0]
+
 def start_wind():
     count = 4
-    curr_x, curr_y = -1, -1
     for i, air in enumerate(air_con):
         if air[2] == 2:
             curr_lx, curr_ly, curr_hx, curr_hy = air[0], air[1]+1, air[0], air[1]+1
             air_con_grid[i][curr_lx][curr_ly] = 5
             for k in range(n):
-                for lx, ly, hx, hy in zip(dir_lx, dir_ly, dir_hx. dir_hy):
-                    if out_of_range2(dir_ly):
-                        break
-                    for i in range(curr_lx,curr_hx+1):
-                        for j in range(curr_ly, curr_hy+1):
-                            wind(i,curr_x,curr_y,count,air_con[2])
-                    curr_lx, curr_ly, curr_hx, curr_hy = curr_lx+lx, curr_ly+ly, curr_hx+hx, curr_hy+hy
-            count -= 1
+                if out_of_range2(curr_ly):
+                    break
+                for i in range(curr_lx,curr_hx+1):
+                    for j in range(curr_ly, curr_hy+1):
+                        wind(i,curr_x,curr_y,count,air_con[2])
+                curr_lx, curr_ly, curr_hx, curr_hy = curr_lx+dir_lx[2], curr_ly+dir_ly[2], curr_hx+dir_hx[2], curr_hy+dir_hy[2]
+                count -= 1
             break
 
 
