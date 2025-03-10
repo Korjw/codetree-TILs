@@ -282,8 +282,10 @@ result = 0
 result_grid = [[0 for _ in range(n)] for __ in range(n)]
 for i in range(102):
     result = i+1
-    start_wind()
+    
+    air_con_grid = [[[0 for _ in range(n)] for __ in range(n)] for ___ in range(len(air_con))]
 
+    start_wind()
     for ac in air_con_grid:
         for i in range(n):
             for j in range(n):
@@ -330,11 +332,11 @@ print(result)
     #     print(p_n_grid[i][j], end = ' ')
     # print()
 
-# 5 2 3
-# 0 0 0 0 0
-# 4 0 1 1 1
-# 0 0 1 1 0
-# 0 0 0 0 0
-# 0 3 0 0 0
-# 3 2 0
-# 3 2 1
+#4 3 1
+# 1 0 0 1 
+# 0 0 2 0 
+# 0 0 2 0 
+# 0 0 0 0 
+# 3 1 0
+# 2 2 0
+# 1 2 1
