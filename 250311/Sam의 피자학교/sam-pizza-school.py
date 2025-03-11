@@ -164,16 +164,16 @@ def check():
         return True
     return False
 
-result = 0
+result = -1
 
-for i in range(4):
+while True:
+    result += 1
     init_dow()
     lx,ly,rx,ry = n-1,0,n-1,0
     roll_size = 1
 
     #print(dow_num)
     if check():
-        result = i
         break
     
     plus_dow()
