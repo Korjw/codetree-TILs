@@ -34,6 +34,8 @@ def simul(poss):
     for p in poss:
         start_date, t, p = out_list[p]
         for i in range(start_date,start_date+t):
+            if i > n-1:
+                return -1
             date[i] += 1
             if date[i] >= 2:
                 return -1
