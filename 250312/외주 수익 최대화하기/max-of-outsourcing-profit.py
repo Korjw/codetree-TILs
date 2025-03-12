@@ -7,21 +7,27 @@ for i in range(n):
     out_list.append([i,t,p])
 
 pos = []
+pos_check = [0]
 pos_list = []
 visited = [False for _ in range(n)]
+result = [0]
 
 def make_pos(cnt,pos_len):
+    global result
     if cnt == pos_len:
         pos_list.append(pos[:])
         return
 
     for i in range(n):
-        if not visited[i]:
+        if not visited[i] and pos_check[-1]-1 + out_list[i][1] <= n-1 and pos_check[-1]-1 < out_list[i][0] and \
+            out_list[i][0] + out_list[i][1] <= n:
             pos.append(i)
+            pos_check.append(out_list[i][0] + out_list[i][1])
             visited[i] = True
             make_pos(cnt+1,pos_len)
             visited[i] = False
             pos.pop()
+            pos_check.pop()
 
 for i in range(1,n+1):
     visited = [False for _ in range(n)]
@@ -42,8 +48,13 @@ def simul(poss):
         count += p
     return count
 
-result = []
-for poss in pos_list:
-    result.append(simul(poss))
+for i in range(1,n+1):
+    pos = []
+    pos_check = [0]
+    pos_list = []
+    visited = [False for _ in range(n)]
+    make_pos(0,i)
+    for poss in pos_list:
+        result.append(simul(poss))
 #print(pos_list)
 print(max(result))
