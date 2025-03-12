@@ -35,10 +35,10 @@ def simul(poss):
         start_date, t, p = out_list[p]
         for i in range(start_date,start_date+t):
             if i > n-1:
-                return -1
+                return 0
             date[i] += 1
             if date[i] >= 2:
-                return -1
+                return 0
         count += p
     return count
 
