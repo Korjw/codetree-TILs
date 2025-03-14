@@ -28,7 +28,7 @@ def move_moving():
 
 
 def people_moving():
-    for i in range(len(people)):     
+    for i in range(len(people)-1,-1,-1):     
         if moving[0][people[i]+1] and people[i]+1 not in people:
             people[i] += 1
             moving[0][people[i]] -= 1   
@@ -42,14 +42,14 @@ def people_moving():
 def check():
     count = 0
     for i in range(2):
-        for j in range(len(moving[0])):
+        for j in range(n):
             if moving[i][j] == 0:
                 count += 1
     if count >= k:
         return True
     return False
 
-for i in range(1000):
+for i in range(20000):
     move_moving()
     people_moving()
     if check():
