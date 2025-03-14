@@ -11,13 +11,14 @@ for i in range(n,2*n):
 moving[1].reverse()
 
 def move_moving():
+    temp = moving[0][-1]
     for i in range(n-1,0,-1):
         moving[0][i] = moving[0][i-1]
     moving[0][0] = moving[1][0]
     
     for i in range(n-1):
         moving[1][i] = moving[1][i+1]
-    moving[1][-1] = moving[0][-1]
+    moving[1][-1] = temp
     
     for i in range(len(people)):     
         people[i] += 1
@@ -48,7 +49,7 @@ def check():
         return True
     return False
 
-for i in range(20000000):
+for i in range(1000):
     move_moving()
     people_moving()
     if check():
