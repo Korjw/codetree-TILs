@@ -49,7 +49,7 @@ def check():
         return True
     return False
 
-for i in range(20000):
+for i in range(100000000):
     move_moving()
     people_moving()
     if check():
