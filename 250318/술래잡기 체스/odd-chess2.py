@@ -35,7 +35,8 @@ def out_of_range(x,y):
 def horse_move():
     for i in range(4):
         for j in range(4):
-            grid[i][j] = grid_list[-1][i][j]
+            for k in range(2):
+                grid[i][j][k] = grid_list[-1][i][j][k]
 
     init_horse()
     horse_list.sort(key = lambda x : x[2])
@@ -44,11 +45,13 @@ def horse_move():
 
     for i in range(n):
         x, y, direction = horse_list[i][0], horse_list[i][1], horse_list[i][3]
+        count = 0
         for k in range(8):
             d = (direction+k) % 8
             move_x, move_y = x+dx[d], y+dy[d]
             #print(move_x,move_y,sulrae[-1])
             if not out_of_range(move_x, move_y) and grid[move_x][move_y] != [-1,-1] and grid[x][y] != [-1,-1]:
+                count = d
                 temp_x, temp_y,temp_num,temp_dir = x,y,grid[x][y][0],grid[x][y][1] 
                 #print(x,y,move_x,move_y)
                 # if [x,y,grid[x][y][0],direction] == [0, 2, 10, 2]:
@@ -63,7 +66,14 @@ def horse_move():
                 grid[x][y][0], grid[x][y][1] = grid[move_x][move_y][0], grid[move_x][move_y][1]  
                 grid[move_x][move_y][0], grid[move_x][move_y][1] = temp_num, d
                 break
-
+        horse_list.sort(key = lambda x : x[2])
+        
+            #print(i,horse_list,horse_list[i],grid[move_x][move_y], x+dx[4],y+dy[4])
+    if [1, 2, 0] in sulrae:
+        for l in range(4):
+            for m in range(4):
+                print(grid[l][m], end =' ')
+            print()
     grid_list.append(copy.deepcopy(grid))
         #if i == 4:
             #return
@@ -88,12 +98,14 @@ def sulrae_move(end):
     for i in range(1,4):
         curr_x, curr_y, direction = sulrae[-1][0], sulrae[-1][1], sulrae[-1][2]
         x, y = curr_x+dx[direction]*i, curr_y+dy[direction]*i
-        if not out_of_range(x,y):
+        if not out_of_range(x,y) and grid_list[-1][x][y] != [-1,-1]:
             count += 1
+
+            horse_move()
             number = grid_list[-1][x][y][0]
             b_direction = grid_list[-1][x][y][1]
 
-            horse_move() # grid_list.append()
+            # grid_list.append()
 
             score.append(grid[x][y][0])
             sulrae.append([x,y,b_direction])            
@@ -132,6 +144,11 @@ horse_list.sort(key = lambda x : -x[2])
 # print(horse_list)
 
 print(max(result))
+
+
+
+
+
 
 
 
