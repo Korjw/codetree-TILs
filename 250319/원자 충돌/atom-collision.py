@@ -28,8 +28,8 @@ def next_grid_to_grid():
     for i in range(n):
         for j in range(n):
             if len(next_grid[i][j]):
-                for item in next_grid[i][j]:
-                    grid[i][j].append(item)
+                for l, item in enumerate(next_grid[i][j]):
+                    grid[i][j].append([next_grid[i][j][l][0], next_grid[i][j][l][1], next_grid[i][j][l][2]])
 
     next_grid = [[[] for __ in range(n)] for __ in range(n)]
 
@@ -37,10 +37,10 @@ def move():
     for i in range(n):
         for j in range(n):
             if len(grid[i][j]):
-                for item in grid[i][j]:
+                for l, item in enumerate(grid[i][j]):
                     curr_x, curr_y, curr_m, curr_s, curr_d = i, j, item[0], item[1] % n, item[2]
                     curr_x, curr_y = out_of_range(curr_x+dx[curr_d] * curr_s, curr_y+dy[curr_d] * curr_s)
-                    next_grid[curr_x][curr_y].append(item)
+                    next_grid[curr_x][curr_y].append([grid[i][j][l][0], grid[i][j][l][1], grid[i][j][l][2]])
 
 def spread():
     for i in range(n):
@@ -59,17 +59,18 @@ def spread():
                     curr_d = 0
                 else:
                     curr_d = 1
-                sum_m = sum_m // 4
+                sum_m = sum_m // 5
                 sum_s = sum_s // len(grid[i][j])
                 if sum_m:
                     make_atom(i,j,sum_m,sum_s,curr_d)
+            if len(grid[i][j]) == 1:
+                next_grid[i][j].append([grid[i][j][0][0], grid[i][j][0][1], grid[i][j][0][2]])
                     
 def make_atom(i,j,m,s,d):
     curr_d_cnt = d
     for l in range(0,8,2):
         #print(d+l)
-        move_x, move_y = out_of_range(i+dx[d+l], j+dy[d+l])
-        next_grid[move_x][move_y].append([m,s,d+l])
+        next_grid[i][j].append([m,s,d+l])
 
 result = 0
 
@@ -78,7 +79,8 @@ def check():
     for i in range(n):
         for j in range(n):
             if len(grid[i][j]):
-                result += len(grid[i][j])
+                for item in grid[i][j]:
+                    result += item[0]
 
 for _ in range(k):
     move()
