@@ -59,7 +59,7 @@ def select_dead():
     dir_x, dir_y = [-1,1,1,-1], [-1,-1,1,1]
     for i in range(n):
         for j in range(n):
-            if grid[i][j] < 0:
+            if grid[i][j] < 1:
                 continue
             cnt = grid[i][j]
             for dx, dy in zip(dir_x, dir_y):
@@ -69,6 +69,7 @@ def select_dead():
                         cnt += grid[move_x][move_y]
                     else:
                         break
+            #print(i,j,cnt)
             if max_cnt < cnt:
                 max_x, max_y = i, j
                 max_cnt = cnt
@@ -86,11 +87,13 @@ def dead(x,y):
     for dx, dy in zip(dir_x, dir_y):
         for l in range(1,k+1):
             move_x, move_y = x+dx*l, y+dy*l
-            #print(x,y,move_x,move_y)
-            if not out_of_range(move_x, move_y) and grid[move_x][move_y] != -1:
+            if not out_of_range(move_x, move_y) and grid[move_x][move_y] > 0:
                 result += grid[move_x][move_y]
                 grid[move_x][move_y] = 0
                 dead_grid[move_x][move_y] = c
+            elif not out_of_range(move_x, move_y) and grid[move_x][move_y] < 1:
+                dead_grid[move_x][move_y] = c
+                break
             else:
                 break
 
