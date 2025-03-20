@@ -5,8 +5,11 @@ result = 0
 
 for _ in range(m):
     x,y = map(int,input().split())
-    grid[x-1][y-1] = 'p'
-    player.append([x-1,y-1])
+    if grid[x-1][y-1] == 0:
+        grid[x-1][y-1] = 'p'
+        player.append([x-1,y-1])
+    else:
+        grid[x-1][y-1] += 'p'
 
 x,y = map(int,input().split())
 grid[x-1][y-1] = 'e'
@@ -26,10 +29,18 @@ def move_p():
         for dx, dy in zip(dir_x, dir_y):
             move_x, move_y = p[0]+dx ,p[1]+dy
             if not out_of_range(move_x, move_y) and exit_dist > cal_dist(move_x,move_y,exit[0],exit[1]) and \
-            (grid[move_x][move_y] == 0 or grid[move_x][move_y] == 'p' or grid[move_x][move_y] == 'e'):
-                result += 1
-                if grid[move_x][move_y] != 'e':
-                    grid[move_x][move_y] = 'p'
+            (grid[move_x][move_y] == 0 or 'p' in str(grid[move_x][move_y]) or grid[move_x][move_y] == 'e'):
+                #print(grid[p[0]][p[1]], grid[p[0]][p[1]].count('p'))
+                result += grid[p[0]][p[1]].count('p')
+
+                if grid[move_x][move_y] == 0:
+                    grid[move_x][move_y] = ''
+                    grid[move_x][move_y] += grid[p[0]][p[1]]
+                elif grid[move_x][move_y] == 'e':
+                    grid[p[0]][p[1]] = 0
+                    break
+                else:
+                    grid[move_x][move_y] += grid[p[0]][p[1]]
                 grid[p[0]][p[1]] = 0
                 break
 
@@ -50,7 +61,7 @@ def select_rotate_pos():
                         for p in range(j,l+1):
                             if is_player:
                                 break
-                            if grid[o][p] == 'p':
+                            if 'p' in str(grid[o][p]):
                                 is_player = True
                                 pos.append([k-i+1,i,j,k,l])
     pos.sort()
@@ -91,7 +102,7 @@ def set_p_and_e():
     exit = [-1,-1]
     for i in range(n):
         for j in range(n):
-            if grid[i][j] == 'p':
+            if 'p' in str(grid[i][j]):
                 player.append([i,j])
             if grid[i][j] == 'e':
                 exit = [i,j]
@@ -104,6 +115,7 @@ for _ in range(t):
     rotate(select_rotate_pos())
     if set_p_and_e():
         break
+        
 print(result)
 print(exit[0]+1,exit[1]+1)
 # for i in range(n):
