@@ -69,11 +69,12 @@ def select_dead():
                         cnt += grid[move_x][move_y]
                     else:
                         break
-            #print(i,j,cnt)
             if max_cnt < cnt:
                 max_x, max_y = i, j
                 max_cnt = cnt
     
+    if max_x == -1:
+        return
     dead(max_x, max_y)
 
 result = 0
@@ -91,7 +92,7 @@ def dead(x,y):
                 result += grid[move_x][move_y]
                 grid[move_x][move_y] = 0
                 dead_grid[move_x][move_y] = c
-            elif not out_of_range(move_x, move_y) and grid[move_x][move_y] < 1:
+            elif not out_of_range(move_x, move_y) and grid[move_x][move_y] < 0:
                 dead_grid[move_x][move_y] = c
                 break
             else:
