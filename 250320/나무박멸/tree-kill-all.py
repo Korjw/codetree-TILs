@@ -92,7 +92,7 @@ def dead(x,y):
                 result += grid[move_x][move_y]
                 grid[move_x][move_y] = 0
                 dead_grid[move_x][move_y] = c
-            elif not out_of_range(move_x, move_y) and grid[move_x][move_y] < 0:
+            elif not out_of_range(move_x, move_y) and grid[move_x][move_y] < 1:
                 dead_grid[move_x][move_y] = c
                 break
             else:
