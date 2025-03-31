@@ -7,13 +7,17 @@ move_gisa_list = []
 
 dead = []
 gisa = []
+init_gisa = []
 gisa.append([])
+init_gisa.append([])
 move_pos = True
 
+result = 0
 for i in range(N):
     r,c,h,w,k = map(int,input().split())
     r,c = r-1,c-1
     gisa.append([i+1,r,c,h,w,k])
+    init_gisa.append([i+1,r,c,h,w,k])
     for k in range(r,r+h):
         for j in range(c,c+w):
             gisa_grid[k][j] = i+1
@@ -140,3 +144,9 @@ for i in range(L):
         print(next_gisa_grid[i][j], end = ' ')
     print()
 print(gisa)
+for i,g in enumerate(gisa):
+    if i == 0:
+        continue
+    if g[5] != -1:
+       result += init_gisa[g[0]][5] - g[5]
+print(result)
