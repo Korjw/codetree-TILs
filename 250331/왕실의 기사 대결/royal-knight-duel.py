@@ -108,7 +108,7 @@ def damage(g):
     
 # 위,오,아,왼
 
-for _ in range(3):
+for _ in range(Q):
     move_pos = True
     move_gisa_list = []
     grid_to_next_grid()
