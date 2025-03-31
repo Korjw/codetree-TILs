@@ -70,10 +70,10 @@ def move_2(num,x,y,h,w,d):
     move_x, move_y = x+dx[d], y+dy[d]
     pos_num = []
     pos = False
-    print(123,num,x,y,move_x,move_y)
+    #print(123,num,x,y,move_x,move_y)
     for i in range(move_x,move_x+h):
         for j in range(move_y,move_y+w):
-            print(i,j,grid[i][j])
+            #print(i,j,grid[i][j])
             if out_of_range(i,j) or grid[i][j] == 2:
                 move_pos = False
             if not out_of_range(i,j):
@@ -87,7 +87,7 @@ def move_2(num,x,y,h,w,d):
         for number in pos_num:
             if number not in move_gisa_list:
                 move_gisa_list.append(number)
-            print(number)
+            #print(number)
             move(number,gisa[number][1],gisa[number][2],gisa[number][3],gisa[number][4],d)
 
 def damage(g):
@@ -96,7 +96,7 @@ def damage(g):
         for j in range(gisa[g][2], gisa[g][2]+gisa[g][4]):
             if grid[i][j] == 1:
                 cnt += 1
-    print(cnt)
+    #print(cnt)
     if gisa[g][5] <= cnt:
         gisa[g][5] = -1
         for i in range(gisa[g][1], gisa[g][1]+gisa[g][3]):
@@ -129,21 +129,21 @@ for _ in range(3):
                 damage(g)
         next_grid_to_grid()
 
-for i in range(L):
-    for j in range(L):
-        print(gisa_grid[i][j], end = ' ')
-    print()
-print()
-for i in range(L):
-    for j in range(L):
-        print(grid[i][j], end = ' ')
-    print()
-print()
-for i in range(L):
-    for j in range(L):
-        print(next_gisa_grid[i][j], end = ' ')
-    print()
-print(gisa)
+# for i in range(L):
+#     for j in range(L):
+#         print(gisa_grid[i][j], end = ' ')
+#     print()
+# print()
+# for i in range(L):
+#     for j in range(L):
+#         print(grid[i][j], end = ' ')
+#     print()
+# print()
+# for i in range(L):
+#     for j in range(L):
+#         print(next_gisa_grid[i][j], end = ' ')
+#     print()
+# print(gisa)
 for i,g in enumerate(gisa):
     if i == 0:
         continue
