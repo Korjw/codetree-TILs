@@ -71,10 +71,12 @@ def move_2(num,x,y,h,w,d):
     pos_num = []
     pos = False
     #print(123,num,x,y,move_x,move_y)
+    #print(num,x,y,h,w,d,move_x,move_y,)
     for i in range(move_x,move_x+h):
         for j in range(move_y,move_y+w):
             #print(i,j,grid[i][j])
             if out_of_range(i,j) or grid[i][j] == 2:
+                #print(i,j,grid[i][j])
                 move_pos = False
             if not out_of_range(i,j):
                 if gisa_grid[i][j] and gisa_grid[i][j] not in pos_num and gisa_grid[i][j] != num:
@@ -88,7 +90,7 @@ def move_2(num,x,y,h,w,d):
             if number not in move_gisa_list:
                 move_gisa_list.append(number)
             #print(number)
-            move(number,gisa[number][1],gisa[number][2],gisa[number][3],gisa[number][4],d)
+            move_2(number,gisa[number][1],gisa[number][2],gisa[number][3],gisa[number][4],d)
 
 def damage(g):
     cnt = 0
@@ -108,15 +110,21 @@ def damage(g):
     
 # 위,오,아,왼
 
+count_time = 0
 for _ in range(Q):
+    count_time += 1
     move_pos = True
     move_gisa_list = []
     grid_to_next_grid()
-    i,d = map(int,input().split())
 
+    i,d = map(int,input().split())
+    # if count_time == 71:
+    #     print(i,d)
     if i in dead:
         continue
+
     move_gisa_list.append(i)
+
     if d == 1 or d == 2:
         move(i,gisa[i][1], gisa[i][2], gisa[i][3], gisa[i][4], d)
     else:
@@ -128,22 +136,23 @@ for _ in range(Q):
             if g != i:
                 damage(g)
         next_grid_to_grid()
-
-# for i in range(L):
-#     for j in range(L):
-#         print(gisa_grid[i][j], end = ' ')
-#     print()
-# print()
-# for i in range(L):
-#     for j in range(L):
-#         print(grid[i][j], end = ' ')
-#     print()
-# print()
-# for i in range(L):
-#     for j in range(L):
-#         print(next_gisa_grid[i][j], end = ' ')
-#     print()
-# print(gisa)
+"""
+for i in range(L):
+    for j in range(L):
+        print(gisa_grid[i][j], end = ' ')
+    print()
+print()
+for i in range(L):
+    for j in range(L):
+        print(grid[i][j], end = ' ')
+    print()
+print()
+for i in range(L):
+    for j in range(L):
+        print(next_gisa_grid[i][j], end = ' ')
+    print()
+print(gisa)
+"""
 for i,g in enumerate(gisa):
     if i == 0:
         continue
