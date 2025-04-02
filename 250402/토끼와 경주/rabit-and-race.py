@@ -5,10 +5,38 @@ rabbit = []
 dir_x, dir_y = [-1,0,1,0], [0,-1,0,1]
 score = []
 
-def out_of_range(x,y,d):
-    if x < 0 or x > N -1 or y < 0 or y > M-1:
-        return (d+2) % 4
-    return d
+def cal_xy(x,y,d,dist):
+    curr_x, curr_y = x, y
+    curr_dist = dist
+    curr_d = d
+    while curr_dist != 0:
+        if curr_x+dir_x[curr_d]*curr_dist > N-1:
+            #print(curr_d,curr_dist)
+            curr_dist -= (N-1) - curr_x
+            curr_x = N-1
+            curr_d = (curr_d+2) % 4
+        elif curr_x+dir_x[curr_d]*curr_dist < 0:
+            #print(123,curr_x,curr_y,curr_d,curr_dist)
+            curr_dist -= curr_x
+            curr_x = 0
+            curr_d = (curr_d+2) % 4
+        elif curr_y+dir_y[curr_d]*curr_dist > M-1:
+            #print(123,curr_x,curr_y,curr_d,curr_dist)
+            curr_dist -= (M-1) - curr_y
+            curr_y = M-1
+            curr_d = (curr_d+2) % 4
+            #print(123,curr_x,curr_y,curr_d,curr_dist)
+        elif curr_y+dir_y[curr_d]*curr_dist < 0:
+            #print(234,curr_x,curr_y,curr_d,curr_dist)
+            curr_dist -= curr_y
+            curr_y = 0
+            curr_d = (curr_d+2) % 4
+        else:
+            #print(567,curr_x,curr_y,curr_d,curr_dist)
+            curr_x, curr_y = curr_x+dir_x[curr_d]*curr_dist, curr_y+dir_y[curr_d]*curr_dist
+            curr_dist = 0
+        #print(curr_x,curr_y,curr_d,curr_dist)
+    return curr_x, curr_y
 
 def move():
     rabbit.sort(key = lambda x : (x[0], x[1]+x[2], x[1], x[2], x[3]))
@@ -16,12 +44,10 @@ def move():
     for i in range(len(rabbit)):
         if i == 0:
             for k in range(4):
-                curr_d = k
                 curr_x, curr_y = rabbit[i][1], rabbit[i][2]
-                for _ in range(rabbit[i][4]):
-                    curr_d = out_of_range(curr_x + dir_x[curr_d], curr_y + dir_y[curr_d],curr_d)
-                    curr_x, curr_y = curr_x + dir_x[curr_d], curr_y + dir_y[curr_d]
+                curr_x, curr_y = cal_xy(curr_x,curr_y,k,rabbit[i][4])
                 d_list.append([curr_x, curr_y])
+                #break
 
             d_list.sort(key = lambda x : (-(x[0]+x[1]), -x[0], -x[1]))    
             rabbit[i][1], rabbit[i][2] = d_list[0][0], d_list[0][1]
@@ -31,6 +57,7 @@ def move():
                 if score[k][0] == rabbit[i][3]:
                     score[k][1] += d_list[0][0] + d_list[0][1] + 2
         #print(score)
+    #print(d_list)
     #print(rabbit)
 
 for _ in range(Q):
