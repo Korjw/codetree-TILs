@@ -9,7 +9,9 @@ if Y % 4 == 0:
             tf = True
 if not tf and M == 2 and D > 28:
     print(-1)
-elif M in ([2,4,6,9,11]) and D == 31:
+elif M == 2 and D > 29:
+    print(-1)
+elif M in ([4,6,9,11]) and D == 31:
     print(-1)
 else:
     if M >= 3 and M <= 5:
