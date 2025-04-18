@@ -10,5 +10,5 @@ def func(x):
         print(x)
         return
     func(x+1)
-func(1)
+func(max(arr))
 # Please write your code here.
