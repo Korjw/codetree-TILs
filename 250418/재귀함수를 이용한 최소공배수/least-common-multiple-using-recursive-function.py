@@ -15,5 +15,7 @@ def func(s1,s2,x):
         func(s1,s2,x+result)
 for i in range(len(arr)-1):
     func(i,i+1,result)
+if len(arr) == 1:
+    result = arr[0]
 print(result)
 # Please write your code here.
