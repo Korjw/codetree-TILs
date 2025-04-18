@@ -1,16 +1,19 @@
 import sys
 n = int(input())
 arr = list(map(int, input().split()))
-
-def func(x):
+result = 1
+def func(s1,s2,x):
+    global result
     cnt = 0
-    for i in arr:
-        if x % i == 0:
+    for i in range(s1,s2+1):
+        if x % arr[i] == 0:
             cnt += 1
-        else:    
-            func(x+1)
-    if cnt == len(arr):
-        print(x)
-        sys.exit(0)
-func(max(arr))
+    if cnt == 2:
+        result = x
+        return
+    else:
+        func(s1,s2,x+result)
+for i in range(len(arr)-1):
+    func(i,i+1,result)
+print(result)
 # Please write your code here.
