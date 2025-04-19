@@ -14,3 +14,5 @@ for i in range(n):
             if cnt > 0 and temp[k] > 0:
                 print(cnt*temp[k])
                 sys.exit(0)
+            result.append(cnt*temp[k])
+print(max(result))
