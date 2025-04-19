@@ -9,7 +9,7 @@ for i in arr:
         max_num = i
         cnt += 1
     else:
-        if cnt >= 2:
+        if cnt >= 1:
             result = max(result,cnt)
         cnt = 0
         max_num = i
