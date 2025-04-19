@@ -1,20 +1,33 @@
 X = int(input())
-
-pos = []
-curr = 1
-result = 0
-
-for i in range(1,200):
-    cnt = 0
-    for j in range(1,i+1):
-        cnt += j
-    for j in range(1,i):
-        cnt += j
-    pos.append(cnt)
-for i in range(200):
-    if pos[i] <= X and pos[i+1] > X:
-        X -= pos[i]
-        result = i * 2 + 1
+X -= 1
+curr_v = 1
+result = 1
+pos = 1
+for i in range(1,10000):
+    #if X < 500:
+        #print(curr_v,X)
+    pos_curr_v = curr_v + 1
+    cnt1 = 0
+    cnt2 = 0
+    for i in range(1,pos_curr_v+1):
+        cnt1 += i
+    for i in range(1,curr_v):
+        cnt2 += i
+    #print(cnt1,X)
+    #print(cnt2,X)
+    if cnt1 < X:
+        curr_v = pos_curr_v
+    elif curr_v == 1 or cnt2 <= X-curr_v:
+        curr_v = curr_v
+    else:
+        curr_v -= 1
+    X -= curr_v
+    result += 1
+    if X == 0:
         break
-print(result+X)
+print(result)
+
+
+
+
 # Please write your code here.
