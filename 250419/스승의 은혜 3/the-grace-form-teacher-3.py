@@ -5,9 +5,10 @@ result = 0
 for _ in range(n):
     p,s = map(int,input().split())
     ps.append([p,s])
-
+temp = [[0,0] for _ in range(n)]
 for i in range(n):
-    temp = ps[:][:]
+    for k in range(n):
+        temp[k][0], temp[k][1] = ps[k][0], ps[k][1]
     temp[i][0] //= 2
     temp.sort(key = lambda x : (x[0]+x[1]))
     #print(ps,temp)
