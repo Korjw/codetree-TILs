@@ -7,9 +7,10 @@ for _ in range(n):
     ps.append([p,s])
 
 for i in range(n):
-    temp = ps[:]
+    temp = ps[:][:]
     temp[i][0] //= 2
     temp.sort(key = lambda x : (x[0]+x[1]))
+    #print(ps,temp)
     cnt = 0
     count = 0
     for j in range(n):
