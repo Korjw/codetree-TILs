@@ -1,8 +1,9 @@
 n = int(input())
-temp = [0 for _ in range(206)]
+temp = [0 for _ in range(999999)]
 curr = 103
-b = [0 for _ in range(206)]
-w = [0 for _ in range(206)]
+
+b = [0 for _ in range(999999)]
+w = [0 for _ in range(999999)]
 
 for _ in range(n):
     x, c = map(str,input().split())
