@@ -7,8 +7,10 @@ for i in range(n):
         for k in range(n):
             if i != k and j != k:
                 cnt2 = arr[k]
+        if [(sum(arr)-cnt1-cnt2),cnt1,cnt2].count(cnt1) >= 2 or [(sum(arr)-cnt1-cnt2),cnt1,cnt2].count(cnt2) >= 2:
+            continue
         result = min(result, max([(sum(arr)-cnt1-cnt2),cnt1,cnt2])-min([(sum(arr)-cnt1-cnt2),cnt1,cnt2]))  
-if not result:
+if result == 999999999:
     print(-1)
 else:      
     print(result)
