@@ -14,13 +14,10 @@ for i in range(n):
     #print(temp)
     temp2 = []
     for item in temp:
-        if len(item) >= 2:
-            for s in item:
-                if s not in temp2:
-                    temp2.append(s)
-                    
-    if len(temp2) == n-1:
-        tf = True
+        if len(item) == n-1:
+            tf = True
+            break
+    if tf:
         break
 if tf:
     print('Yes')
