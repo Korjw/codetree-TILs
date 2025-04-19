@@ -3,17 +3,35 @@ arr = list(input().split())
 
 result = 0
 
-def move(i):
+def move1(i,curr):
     global result
-    while ord(arr[i])-ord('A') != i:
-        temp = arr[i]
-        arr[i] = arr[i+1]
-        arr[i+1] = temp
-        i += 1
+    x = curr
+    while x != i:
+        temp = arr[x]
+        arr[x] = arr[x+1]
+        arr[x+1] = temp
+        x += 1
         result += 1
-
-for i in range(n):
-    if ord(arr[i])-ord('A') != i:
-        move(i)
         
+
+def move2(i,curr):
+    global result
+    x = curr
+    while x != i:
+        temp = arr[x-1]
+        arr[x-1] = arr[x]
+        arr[x] = temp
+        x -= 1
+        result += 1
+        
+
+for i in range(ord('A'),ord('A')+n):
+    curr = arr.index(chr(i))
+
+    if i-ord('A') < curr: # 왼쪽으로 이동
+        move2(i-ord('A') ,curr)
+    if i-ord('A') > curr: # 오른쪽으로 이동
+        move1(i-ord('A') ,curr)
+    
+#print(arr)
 print(result)
